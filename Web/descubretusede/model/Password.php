@@ -1,5 +1,5 @@
 <?php
-    class Perfil {
+    class Password {
  	public $id_usuario;
 	public $hash_pass;
 	public $fecha_caducidad;
