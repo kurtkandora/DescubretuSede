@@ -1,0 +1,9 @@
+-----------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------
+NOMBRE PACKAGE: cl.duoc.marketing.av.descubretusede.daosqlite
+
+DESCRIPCION: Este PACKAGE contiene la implementación y lógica para la persistencia de datos a través de sqlite android.
+
+VERSION or DATE: 04/10/2014
+
+AUTHORS: David Soto Mateluna

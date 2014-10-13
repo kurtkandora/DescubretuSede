@@ -1,0 +1,10 @@
+-----------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------
+NOMBRE PACKAGE: cl.duoc.marketing.av.descubretusede.json
+
+DESCRIPCION: Este PACKAGE contiene la implementación lógica 
+a través de clase para manipular los datos en formato de intercambio ligero JSON.
+
+VERSION or DATE: 04/10/2014
+
+AUTHORS: David Soto Mateluna
