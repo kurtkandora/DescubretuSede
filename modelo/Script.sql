@@ -3,6 +3,8 @@
 /* Created on:     16-10-2014 17:37:22                          */
 /*==============================================================*/
 
+create database conocetusede character set utf8 collate utf8_general_ci;
+use conocetusede;
 
 drop table if exists acceso;
 
