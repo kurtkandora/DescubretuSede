@@ -1,10 +1,8 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     12-10-2014 0:45:18                           */
+/* Created on:     16-10-2014 17:37:22                          */
 /*==============================================================*/
 
-create database conocetusede character set utf8 collate utf8_general_ci;
-use conocetusede;
 
 drop table if exists acceso;
 
@@ -117,6 +115,8 @@ create table notificacion
 (
    id_notificacion      int not null,
    id_actividad         int not null,
+   fecha_notificacion   date not null,
+   descrip_notifi       varchar(200),
    primary key (id_notificacion)
 );
 
@@ -139,7 +139,7 @@ create table perfil
 (
    id_perfil            int not null,
    nombre               varchar(20) not null,
-   descripcion          varchar(80) not null,
+   descrip_sabana       varchar(200) not null,
    primary key (id_perfil)
 );
 
@@ -150,6 +150,11 @@ create table sabana_horaria
 (
    id_sabana            int not null,
    id_sala              int not null,
+   semestre             int not null,
+   fec_inicio           date not null,
+   fec_termino          date not null,
+   fec_creacion         date not null,
+   descrip_sabana       varchar(200) not null,
    primary key (id_sabana)
 );
 
@@ -172,7 +177,6 @@ create table seccion
 (
    id_seccion           int not null,
    id_asignatura        int not null,
-   id_sabana            int not null,
    numero_secc          numeric(3,0) not null,
    jornada              char(1) not null,
    profesor             varchar(30) not null,
@@ -238,9 +242,6 @@ alter table sabana_horaria add constraint fk_sala_sabanahoraria foreign key (id_
 alter table seccion add constraint fk_asignatura_seccion foreign key (id_asignatura)
       references asignatura (id_asignatura) on delete restrict on update restrict;
 
-alter table seccion add constraint fk_sabanahoraria_seccion foreign key (id_sabana)
-      references sabana_horaria (id_sabana) on delete restrict on update restrict;
-
 alter table usuario add constraint fk_perfil_usuario foreign key (id_perfil)
       references perfil (id_perfil) on delete restrict on update restrict;
 
@@ -268,6 +269,7 @@ create index index_sabana_horaria on sabana_horaria (id_sala);
 
 create index index_seccion on seccion (id_asignatura);
 
-create index index_seccion_1 on seccion (id_sabana);
 
 create index index_usuario on usuario (id_perfil);
+
+
