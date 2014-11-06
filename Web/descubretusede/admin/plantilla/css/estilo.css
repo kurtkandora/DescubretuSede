@@ -1,0 +1,31 @@
+html,
+button,
+input,
+selecttextarea{
+	color: #222;
+}
+
+
+body {
+	font-size: 36px;
+	line-height: 1.4;
+}
+
+.color1
+{
+	background-color: red;
+}
+.color2
+{
+	background-color: blue;
+}
+.color3
+{
+	background-color: orange;
+}
+
+.imgportada{
+align:center;
+width:250px;
+height:230;
+}
