@@ -22,7 +22,7 @@ public class Usuario {
         this.nombres = nombres;
         this.apeMaterno = apeMaterno;
         this.apePaterno = apePaterno;
-        Rut = rut;
+        this.Rut = rut;
         this.correo = correo;
         this.password = password;
         this.asignaturas = asignaturas;
