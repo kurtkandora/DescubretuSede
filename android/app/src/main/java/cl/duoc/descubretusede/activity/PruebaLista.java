@@ -33,7 +33,7 @@ public class PruebaLista extends Activity implements OnItemSelectedListener {
     //Lista del resultado de busqueda
     Map<String,String> map = new Hashtable<String, String>();
     Intent intent;
-
+    static String seleccionado=null;
 
 
     @Override
@@ -122,8 +122,12 @@ public class PruebaLista extends Activity implements OnItemSelectedListener {
     private void busqueda(String query, String tipoBusqueda) {
 
         //pruebas
-        Toast toast = Toast.makeText(getApplicationContext(), query + tipoBusqueda, Toast.LENGTH_LONG);
-        toast.show();
+        if(seleccionado != null) {
+            Toast toast = Toast.makeText(getApplicationContext(), query + tipoBusqueda + seleccionado, Toast.LENGTH_LONG);
+            toast.show();
+        }else{
+            Toast.makeText(getApplicationContext(),"Debe seleccionar una Opcion",Toast.LENGTH_SHORT).show();
+        }
 
 
     }
@@ -137,16 +141,19 @@ public class PruebaLista extends Activity implements OnItemSelectedListener {
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         //mostrando opciones seleccionadas (solo para ver si los datos son devueltos)
-        intent.putExtra("tipoBusqueda","tipoBusqueda");
+        //intent.putExtra("tipoBusqueda","tipoBusqueda");
             switch (i){
                 case 1:
-                    Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
+                    seleccionado = lista.get(i).toString();
                     break;
                 case 2:
-                    Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
+                    seleccionado = lista.get(i).toString();
                     break;
                 case 3:
-                    Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
+                    seleccionado = lista.get(i).toString();
                     break;
 
             }
