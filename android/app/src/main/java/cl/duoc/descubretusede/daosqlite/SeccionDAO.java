@@ -13,19 +13,18 @@ import cl.duoc.descubretusede.model.Seccion;
  * Created by kurt on 16-10-2014.
  */
 public class SeccionDAO {
-    private static  DataHelper datahelper;
+    private static  DataHelper dataHelper;
     private static SQLiteDatabase seccionDB;
-    private Seccion seccion;
 
     public SeccionDAO(Context context) {
-        datahelper = new DataHelper(context);
-        seccion = new Seccion();
+        dataHelper = new DataHelper(context);
 
     }
 
     public Seccion getSeccion(int idSeccion){
 
-        seccionDB = datahelper.getReadableDatabase();
+        Seccion seccion = new Seccion();
+        seccionDB = dataHelper.getReadableDatabase();
         Cursor seccionCursor = seccionDB.rawQuery("Select numero_secc,jornada,profesor from seccion where id_seccion = "+idSeccion,null);
         if(seccionCursor.moveToFirst()) {
             do {
@@ -39,11 +38,12 @@ public class SeccionDAO {
         return seccion;
     }
     public ArrayList<Seccion> getSecciones(Asignatura asignatura){
-        seccionDB = datahelper.getReadableDatabase();
+        seccionDB = dataHelper.getReadableDatabase();
         Cursor seccionCursor = seccionDB.rawQuery("Select id_seccion,numero_secc,jornada,profesor from seccion where id_asignatura = "+asignatura.getIdAsignatura(),null);
         ArrayList<Seccion> secciones = new ArrayList<Seccion>();
         if(seccionCursor.moveToFirst()) {
             do {
+                Seccion seccion = new Seccion();
                 seccion.setIdSeccion(seccionCursor.getInt(0));
                 seccion.setNumeroSeccion(seccionCursor.getInt(1));
                 seccion.setJornada(seccionCursor.getString(2).charAt(0));
@@ -53,5 +53,16 @@ public class SeccionDAO {
             }while(seccionCursor.moveToFirst());
         }
         return secciones;
+    }
+
+    public boolean borrarSeccion (int idSeccion){
+        try {
+            seccionDB = dataHelper.getWritableDatabase();
+            return seccionDB.delete("Seccion", "idSeccion=" + idSeccion, null) > 0;
+        }
+        catch (Exception e){
+            return false;
+        }
+
     }
 }

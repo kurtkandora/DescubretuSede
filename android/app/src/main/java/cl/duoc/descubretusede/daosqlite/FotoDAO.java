@@ -14,18 +14,17 @@ import cl.duoc.descubretusede.model.Sala;
  * Created by kurt on 16-10-2014.
  */
 public class FotoDAO {
-    private static  DataHelper datahelper;
+    private static  DataHelper dataHelper;
     private static SQLiteDatabase fotoDB;
-    private Foto foto;
     private Context context;
 
     public FotoDAO(Context context) {
         this.context = context;
-        datahelper = new DataHelper(context);
-        foto = new Foto();
+        dataHelper = new DataHelper(context);
     }
     public Foto getFoto(int idFoto){
-        fotoDB = datahelper.getReadableDatabase();
+        Foto foto = new Foto();
+        fotoDB = dataHelper.getReadableDatabase();
         Cursor fotoCursor = fotoDB.rawQuery("Select foto_sala,fecha_foto from foto where id_foto = "+idFoto,null);
         if(fotoCursor.moveToFirst()) {
             do {
@@ -39,7 +38,8 @@ public class FotoDAO {
     }
 
     public Foto getFoto(Sala sala){
-        fotoDB = datahelper.getReadableDatabase();
+        Foto foto = new Foto();
+        fotoDB = dataHelper.getReadableDatabase();
         Cursor fotoCursor = fotoDB.rawQuery("Select foto_sala,fecha_foto,id_foto from foto where id_sala = "+sala.getIdSala(),null);
         if(fotoCursor.moveToFirst()) {
             do {
@@ -50,6 +50,16 @@ public class FotoDAO {
             }while(fotoCursor.moveToFirst());
         }
         return foto;
+    }
+
+    public boolean borrarFoto (int idFoto){
+        try {
+            fotoDB = dataHelper.getWritableDatabase();
+            return fotoDB.delete("Foto", "idFoto=" + idFoto, null) > 0;
+        }
+        catch (Exception e){
+            return false;
+        }
     }
 
 }

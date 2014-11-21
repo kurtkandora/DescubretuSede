@@ -10,18 +10,17 @@ import cl.duoc.descubretusede.model.Asignatura;
  * Created by kurt on 16-10-2014.
  */
 public class AsignaturaDAO {
-    private static  DataHelper datahelper;
+    private static  DataHelper dataHelper;
     private static SQLiteDatabase asignaturaDB;
-    private Asignatura asignatura;
 
     public AsignaturaDAO(Context context) {
-        datahelper = new DataHelper(context);
-        asignatura = new Asignatura();
+        dataHelper = new DataHelper(context);
 
     }
     public Asignatura getAsignatura(int idAsignatura){
 
-        asignaturaDB = datahelper.getReadableDatabase();
+        Asignatura asignatura = new Asignatura();
+        asignaturaDB = dataHelper.getReadableDatabase();
         Cursor asignaturaCursor = asignaturaDB.rawQuery("Select nombre_asig,sigla_asig from asignatura where id_asignatura = "+idAsignatura,null);
         if(asignaturaCursor.moveToFirst()) {
             do {
@@ -33,5 +32,15 @@ public class AsignaturaDAO {
         }
         return asignatura;
 
+    }
+
+    public boolean borrarAsignatura (int idAsignatura){
+        try {
+            asignaturaDB = dataHelper.getWritableDatabase();
+            return asignaturaDB.delete("Asignatura", "idAsignatura=" + idAsignatura, null) > 0;
+        }
+        catch (Exception e){
+            return false;
+        }
     }
 }

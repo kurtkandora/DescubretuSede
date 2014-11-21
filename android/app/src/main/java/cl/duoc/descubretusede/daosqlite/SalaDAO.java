@@ -10,19 +10,18 @@ import cl.duoc.descubretusede.model.Sala;
  * Created by kurt on 16-10-2014.
  */
 public class SalaDAO {
-    private static  DataHelper datahelper;
+    private static  DataHelper dataHelper;
     private static SQLiteDatabase salaDB;
-    private Sala sala;
     private Context context;
 
     public SalaDAO(Context context) {
         this.context = context;
-        datahelper = new DataHelper(context);
-        sala = new Sala();
+        dataHelper = new DataHelper(context);
     }
     public Sala getSala(int idSala)
     {
-        salaDB = datahelper.getReadableDatabase();
+        Sala sala = new Sala();
+        salaDB = dataHelper.getReadableDatabase();
         Cursor salasCursor = salaDB.rawQuery("Select nombre_sala,ubicacion_sala,capacidad from sala where id_sala = "+idSala,null);
         if(salasCursor.moveToFirst()) {
             do {
@@ -35,6 +34,17 @@ public class SalaDAO {
             }while(salasCursor.moveToFirst());
         }
         return sala;
+    }
+
+    public boolean borrarSala (int idSala){
+        try {
+            salaDB = dataHelper.getWritableDatabase();
+            return salaDB.delete("Sala", "idSala=" + idSala, null) > 0;
+        }
+        catch (Exception e){
+            return false;
+        }
+
     }
 
 

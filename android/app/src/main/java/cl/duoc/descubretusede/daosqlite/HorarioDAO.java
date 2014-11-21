@@ -16,20 +16,19 @@ import cl.duoc.descubretusede.model.Seccion;
  */
 public class HorarioDAO {
 
-    private static  DataHelper datahelper;
+    private static  DataHelper dataHelper;
     private static SQLiteDatabase horarioDB;
-    private Horario horario;
     private Context context;
 
     public HorarioDAO(Context context) {
         this.context = context;
-        horario = new Horario();
-        datahelper = new DataHelper(context);
+        dataHelper = new DataHelper(context);
 
     }
 
     public Horario getHorario(int idHorario){
-        horarioDB = datahelper.getReadableDatabase();
+        Horario horario = new Horario();
+        horarioDB = dataHelper.getReadableDatabase();
         Cursor horarioCursor = horarioDB.rawQuery("Select dia_clases,hora_inicio,hora_termino,id_sala from horario where id_horario = "+idHorario,null);
         if(horarioCursor.moveToFirst()) {
             do {
@@ -49,11 +48,12 @@ public class HorarioDAO {
     }
 
     public ArrayList<Horario> getHorarios (Seccion seccion){
-        horarioDB = datahelper.getReadableDatabase();
+        horarioDB = dataHelper.getReadableDatabase();
         Cursor horarioCursor = horarioDB.rawQuery("Select dia_clases,hora_inicio,hora_termino,id_sala,id_horario from horario where id_seccion = "+seccion.getIdSeccion(),null);
         ArrayList<Horario> horarios = new ArrayList<Horario>();
         if(horarioCursor.moveToFirst()) {
             do {
+                Horario horario = new Horario();
                 horario.setIdHorario(horarioCursor.getInt(4));
                 horario.setDiaClases(horarioCursor.getString(0));
                 horario.setHoraInicio(Time.valueOf(horarioCursor.getString(1)));
@@ -67,6 +67,31 @@ public class HorarioDAO {
             }while(horarioCursor.moveToFirst());
         }
         return horarios;
+
+    }
+
+    public boolean borrarHorario (int idHorario){
+        try {
+            horarioDB = dataHelper.getWritableDatabase();
+            return horarioDB.delete("Horario", "idHorario=" + idHorario, null) > 0;
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
+
+    public boolean setHorario (Horario horario){
+
+        try {
+            horarioDB = dataHelper.getWritableDatabase();
+            horarioDB.execSQL("insert into horario(dia_clases,hora_inicio,hora_termino,id_sala,id_horario,id_seccion) values ("
+                    +horario.getDiaClases()+","+horario.getHoraInicio()+","+horario.getHoraTermino()+","+horario.getSala()+","
+                    +horario.getIdHorario()+")");
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
 
     }
 }
