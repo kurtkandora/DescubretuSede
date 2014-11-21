@@ -29,7 +29,7 @@
             android:layout_centerHorizontal="true" />
 
     <SearchView
-        android:id="@+id/action_search"
+        android:id="@+id/busqueda"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/spinnerOpciones"/>
