@@ -5,6 +5,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -49,12 +50,6 @@ public class PruebaLista extends Activity implements OnItemSelectedListener {
         map.put("AV205","Sala AV205");
         map.put("L55","Sala L55");
         map.put("AV215","Sala AV215");
-/*
-        //seteo el buscador
-        sv = (SearchView) findViewById(R.id.action_search);
-        //seteo el valor de ejemplo de busqueda
-        sv.setQueryHint("L51");
-*/
 
 
         //seteo de Spinner
@@ -70,34 +65,7 @@ public class PruebaLista extends Activity implements OnItemSelectedListener {
         sp.setAdapter(dataAdapter);
         //seteando listener
         sp.setOnItemSelectedListener(this);
-/*
-        //Intent intent = getIntent();
-        //if(Intent.ACTION_SEARCH.equals(intent.getAction()))
-        sv.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onSearchRequested();
-            }
-        });
 
-        if(Intent.ACTION_SEARCH.equals(true))
-        {
-            String query = SearchManager.QUERY.toString();
-            Log.i("search", "query=" + query);
-            String str = map.get(query);
-            if(str!=null)
-            {
-                texto.setText(str);
-                setContentView(texto);
-            }else{
-                str="Fail";
-                texto.setText(str);
-                setContentView(texto);
-            }
-
-        }
-
-*/
         //Para que Android reconozca el buscador
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) findViewById(R.id.busqueda);
@@ -108,8 +76,8 @@ public class PruebaLista extends Activity implements OnItemSelectedListener {
         intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            String tipoBusqueda = intent.getStringExtra("tipoBusqueda");
-            busqueda(query,tipoBusqueda);
+            //String tipoBusqueda = intent.getStringExtra("tipoBusqueda");
+            busqueda(query);
         }
 
     }
@@ -117,14 +85,18 @@ public class PruebaLista extends Activity implements OnItemSelectedListener {
     /**
      *
      * @param query String de búsqueda a realizar
-     * @param tipoBusqueda
      */
-    private void busqueda(String query, String tipoBusqueda) {
+    private void busqueda(String query) {
 
         //pruebas
         if(seleccionado != null) {
-            Toast toast = Toast.makeText(getApplicationContext(), query + tipoBusqueda + seleccionado, Toast.LENGTH_LONG);
-            toast.show();
+            Log.i("search", "query=" + query);
+            String str = map.get(query);
+            if (str != null){
+                Toast.makeText(getApplicationContext(),str + seleccionado,Toast.LENGTH_SHORT).show();
+                }else{
+                Toast.makeText(getApplicationContext(),"Sala no encontrada",Toast.LENGTH_SHORT).show();
+            }
         }else{
             Toast.makeText(getApplicationContext(),"Debe seleccionar una Opcion",Toast.LENGTH_SHORT).show();
         }
