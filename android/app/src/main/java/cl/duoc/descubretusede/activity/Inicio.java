@@ -1,19 +1,36 @@
 package cl.duoc.descubretusede.activity;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import cl.duoc.descubretusede.R;
 
 
 public class Inicio extends ActionBarActivity {
 
+    Button btnBuscar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
+        btnBuscar = (Button)findViewById(R.id.botonBuscar);
+
+        btnBuscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                Intent i = new Intent(getApplicationContext(),PruebaLista.class);
+                startActivityForResult(i, 100);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 
