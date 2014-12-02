@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -16,21 +15,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -49,19 +47,18 @@ public class PruebaLista extends Activity implements OnItemSelectedListener {
     //Lista del resultado de busqueda
     Map<String,String> map = new Hashtable<String, String>();
     Intent intent;
-    static String seleccionado=null;
+    static int seleccionado=0;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_busqueda);
+        //para usar INTERNET en el mismo THREAD
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-
-
 
         TextView texto = (TextView) findViewById(R.id.textTest);
 
@@ -79,10 +76,10 @@ public class PruebaLista extends Activity implements OnItemSelectedListener {
         //llenando lista de prueba
         lista.add("Tipo de Busqueda");
         lista.add("Por Seccion");
-        lista.add("Opcion 2");
+        lista.add("Por Docente");
         lista.add("Opcion 3");
         //seteando adaptador de spinner
-        ArrayAdapter dataAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, lista);
+        ArrayAdapter dataAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,lista);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp.setAdapter(dataAdapter);
         //seteando listener
@@ -98,100 +95,54 @@ public class PruebaLista extends Activity implements OnItemSelectedListener {
         intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            //String tipoBusqueda = intent.getStringExtra("tipoBusqueda");
-            //busqueda(query, objJSON);
-            //testeo de JSON
-            bam(query);
+            busqueda(query,seleccionado);
         }
+
+
     }
 
-    //metodo que testea JSON - Alparecer Error de Parseo o Error en el JSON
-    private void bam(String query){
+    //metodo que testea JSON OK
+
+    private void busqueda(String query, int seleccionado){
         InputStream is = null;
         String encodeurl="";
-        try {
-
-            String simpleUrl = "={\"indice\":2,\"seccion\":\"005D\"}";
-            encodeurl = URLEncoder.encode(simpleUrl, "UTF-8");
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
+        JSONObject object = new JSONObject();
+        JSONArray joba = new JSONArray();
         try {
             HttpClient httpClient = new DefaultHttpClient();
-            //PRUEBA CON WEBSERVICE DUOC (NO FUNCIONA)
-            //HttpGet httpGet = new HttpGet("http://www.descubretusede.comunidadabierta.cl/ws/ws-seccion.php?send"+encodeurl);
-            //https://bugzilla.mozilla.org/rest/bug/35   PRUEBA CON OTRO WEB SERVICE (SI FUNCIONA)
-            HttpGet httpGet = new HttpGet("https://bugzilla.mozilla.org/rest/bug/35");
-            HttpResponse response = httpClient.execute(httpGet);
-            HttpEntity entity = response.getEntity();
-            is = entity.getContent();
+
+            HttpPost httpPost = new HttpPost ("http://www.descubretusede.comunidadabierta.cl/ws/ws-seccion.php");
+            List<NameValuePair> nvp = new ArrayList<NameValuePair>(2);;
+            object.accumulate("indice",seleccionado);
+            object.accumulate("seccion",query);
+
+            nvp.add(new BasicNameValuePair("send", object.toString()));
+            httpPost.setEntity(new UrlEncodedFormEntity(nvp));
+            HttpResponse response = httpClient.execute(httpPost);
+            //HttpEntity entity = response.getEntity();
+            //is = entity.getContent();
+
+            joba = new JSONArray(convertInputStreamToString(response.getEntity().getContent()).toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        HashMap<String, String> hm;
-        List<HashMap<String, String>> aList;
-        String result = "";
-        JSONObject jArray = null;
-        String acu ="";
 
-        try {
-            /*BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    is, "utf-8"), 8);
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-            is.close();*/
-            result = convertInputStreamToString(is);
-            jArray = new JSONObject(result);
-            JSONArray json = jArray.getJSONArray("listado");
-            for (int i = 0; i < json.length(); i++) {
-                //HashMap<String, String> map = new HashMap<String, String>();
-                JSONObject e = json.getJSONObject(i);
-                acu = acu+e.getString("profesor");
 
+        try{
+            String acuTest ="";
+            JSONObject json = new JSONObject();
+            for (int i = 0; i <joba.length() ; i++) {
+                json = (JSONObject)joba.get(i);
+                acuTest = acuTest + json.getString("profesor");
             }
-            Toast.makeText(getApplicationContext(),acu,Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            // TODO: handle exception
+            Toast.makeText(getApplicationContext(),acuTest,Toast.LENGTH_SHORT).show();
+        }catch(Exception e){
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),"Fallo",Toast.LENGTH_SHORT).show();
-        }
-        // Toast.makeText(getApplicationContext(),acu,Toast.LENGTH_SHORT).show();
-    }
-
-
-
-
-
-
-    private void busqueda(String query) {
-
-        //pruebas
-        if(seleccionado != null) {
-            Log.i("search", "query=" + query);
-            String str = map.get(query);
-            String result="";
-            if (query != null){
-                if(seleccionado.equalsIgnoreCase("Por Seccion")) {
-                   // result = objJSON.buscar(2,query);
-                    Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
-                }
-            }else{
-                Toast.makeText(getApplicationContext(),"Sala no encontrada",Toast.LENGTH_SHORT).show();
-            }
-        }else{
-            Toast.makeText(getApplicationContext(),"Debe seleccionar una Opcion",Toast.LENGTH_SHORT).show();
-        }
+        };
 
 
     }
-
-
-
 
 
 
@@ -200,18 +151,20 @@ public class PruebaLista extends Activity implements OnItemSelectedListener {
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         //mostrando opciones seleccionadas (solo para ver si los datos son devueltos)
         //intent.putExtra("tipoBusqueda","tipoBusqueda");
+           //para que comienze desde Indice 2 (Busqueda por Seccion)
+            i++;
             switch (i){
                 case 1:
                     //Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
-                    seleccionado = lista.get(i).toString();
+                    seleccionado = i;
                     break;
                 case 2:
                     //Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
-                    seleccionado = lista.get(i).toString();
+                    seleccionado = i;
                     break;
                 case 3:
                     //Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
-                    seleccionado = lista.get(i).toString();
+                    seleccionado = i;
                     break;
 
             }
