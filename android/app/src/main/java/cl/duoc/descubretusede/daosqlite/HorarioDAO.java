@@ -8,7 +8,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 
 import cl.duoc.descubretusede.model.Horario;
-import cl.duoc.descubretusede.model.Sala;
+import cl.duoc.descubretusede.model.Aula;
 import cl.duoc.descubretusede.model.Seccion;
 
 /**
@@ -29,17 +29,19 @@ public class HorarioDAO {
     public Horario getHorario(int idHorario){
         Horario horario = new Horario();
         horarioDB = dataHelper.getReadableDatabase();
-        Cursor horarioCursor = horarioDB.rawQuery("Select dia_clases,hora_inicio,hora_termino,id_sala from horario where id_horario = "+idHorario,null);
+        Cursor horarioCursor = horarioDB.rawQuery("Select dia_clases,hora_inicio,hora_termino,id_sala,id_seccion from horario " +
+                "where id_horario = "+idHorario,null);
         if(horarioCursor.moveToFirst()) {
             do {
                 horario.setIdHorario(idHorario);
                 horario.setDiaClases(horarioCursor.getString(0));
                 horario.setHoraInicio(Time.valueOf(horarioCursor.getString(1)));
                 horario.setHoraTermino(Time.valueOf(horarioCursor.getString(2)));
-                SalaDAO salaDAO =  new SalaDAO(context);
+                AulaDAO aulaDAO =  new AulaDAO(context);
                 int idSala = horarioCursor.getInt(3);
-                Sala sala = salaDAO.getSala(idSala);
-                horario.setSala(sala);
+                Aula aula = aulaDAO.getSala(idSala);
+                horario.setAula(aula);
+                horario.setIdSeccion(horarioCursor.getInt(4));
 
             }while(horarioCursor.moveToFirst());
         }
@@ -49,7 +51,8 @@ public class HorarioDAO {
 
     public ArrayList<Horario> getHorarios (Seccion seccion){
         horarioDB = dataHelper.getReadableDatabase();
-        Cursor horarioCursor = horarioDB.rawQuery("Select dia_clases,hora_inicio,hora_termino,id_sala,id_horario from horario where id_seccion = "+seccion.getIdSeccion(),null);
+        Cursor horarioCursor = horarioDB.rawQuery("Select dia_clases,hora_inicio,hora_termino,id_horario from horario " +
+                "where id_seccion = "+seccion.getIdSeccion(),null);
         ArrayList<Horario> horarios = new ArrayList<Horario>();
         if(horarioCursor.moveToFirst()) {
             do {
@@ -58,10 +61,11 @@ public class HorarioDAO {
                 horario.setDiaClases(horarioCursor.getString(0));
                 horario.setHoraInicio(Time.valueOf(horarioCursor.getString(1)));
                 horario.setHoraTermino(Time.valueOf(horarioCursor.getString(2)));
-                SalaDAO salaDAO =  new SalaDAO(context);
+                AulaDAO aulaDAO =  new AulaDAO(context);
                 int idSala = horarioCursor.getInt(3);
-                Sala sala = salaDAO.getSala(idSala);
-                horario.setSala(sala);
+                Aula aula = aulaDAO.getSala(idSala);
+                horario.setAula(aula);
+                horario.setIdSeccion(seccion.getIdSeccion());
                 horarios.add(horario);
 
             }while(horarioCursor.moveToFirst());
@@ -73,20 +77,20 @@ public class HorarioDAO {
     public boolean borrarHorario (int idHorario){
         try {
             horarioDB = dataHelper.getWritableDatabase();
-            return horarioDB.delete("Horario", "idHorario=" + idHorario, null) > 0;
+            return horarioDB.delete("Horario", "id_horario=" + idHorario, null) > 0;
         }
         catch (Exception e){
             return false;
         }
     }
 
-    public boolean setHorario (Horario horario){
+    public boolean insertHorario(Horario horario){
 
         try {
             horarioDB = dataHelper.getWritableDatabase();
             horarioDB.execSQL("insert into horario(dia_clases,hora_inicio,hora_termino,id_sala,id_horario,id_seccion) values ("
-                    +horario.getDiaClases()+","+horario.getHoraInicio()+","+horario.getHoraTermino()+","+horario.getSala()+","
-                    +horario.getIdHorario()+")");
+                    +horario.getDiaClases()+","+horario.getHoraInicio()+","+horario.getHoraTermino()+","+horario.getAula().getIdAula()+","
+                    +horario.getIdHorario()+horario.getIdSeccion()+")");
             return true;
         }
         catch (Exception e){

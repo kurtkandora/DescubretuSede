@@ -25,12 +25,14 @@ public class NotificacionDAO {
 
         Notificacion notificacion = new Notificacion();
         notificacionDB = dataHelper.getReadableDatabase();
-        Cursor notificacionCursor = notificacionDB.rawQuery("select notificacion,tipo from notificacion where idNotificacion="+idNotificacion,null);
+        Cursor notificacionCursor = notificacionDB.rawQuery("select notificacion,tipo,id_Actividad from notificacion " +
+                "where id_Notificacion="+idNotificacion,null);
         if(notificacionCursor.moveToFirst()){
             do{
                 notificacion.setIdNotificacion(idNotificacion);
                 notificacion.setNotificacion(notificacionCursor.getString(0));
                 notificacion.setTipo(notificacionCursor.getString(1));
+                notificacion.setIdActividad(notificacionCursor.getInt(1));
 
             }while(notificacionCursor.moveToFirst());
         }
@@ -39,13 +41,15 @@ public class NotificacionDAO {
 
     public ArrayList<Notificacion> getNotificaciones (Actividad actividad){
         ArrayList<Notificacion> notificaciones = new ArrayList<Notificacion>();
-        Cursor notificacionCursor = notificacionDB.rawQuery("select notificacion,tipo,idNotificacion from notificacion where idActividad="+actividad.getIdActividad(),null);
+        Cursor notificacionCursor = notificacionDB.rawQuery("select notificacion,tipo,id_Notificacion from notificacion " +
+                "where id_Actividad="+actividad.getIdActividad(),null);
         if(notificacionCursor.moveToFirst()){
             do{
                 Notificacion notificacion = new Notificacion();
                 notificacion.setIdNotificacion(notificacionCursor.getInt(2));
                 notificacion.setNotificacion(notificacionCursor.getString(0));
                 notificacion.setTipo(notificacionCursor.getString(1));
+                notificacion.setIdActividad(actividad.getIdActividad());
                 notificaciones.add(notificacion);
 
             }while(notificacionCursor.moveToFirst());
@@ -57,12 +61,25 @@ public class NotificacionDAO {
     public boolean borrarNotificacion (int idNotificacion){
         try {
             notificacionDB = dataHelper.getWritableDatabase();
-            return notificacionDB.delete("Notificacion", "idNotificacion=" + idNotificacion, null) > 0;
+            return notificacionDB.delete("Notificacion", "id_Notificacion=" + idNotificacion, null) > 0;
         }
         catch (Exception e){
             return false;
         }
 
+    }
+    public boolean insertNotificacion (Notificacion notificacion){
+
+        try {
+            notificacionDB = dataHelper.getWritableDatabase();
+            notificacionDB.execSQL("insert into Notificacion(id_Notificacion,notificacion,tipo,id_Actividad) values ("
+                    +notificacion.getIdNotificacion()+notificacion.getNotificacion()+notificacion.getTipo()+
+                    notificacion.getIdActividad()+")");
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
     }
 
 

@@ -10,24 +10,28 @@ import java.util.ArrayList;
 public class Actividad {
     private int idActividad;
     private String nombre, descripcion, ubicacion, tipo;
-    private Time hora;
+    private Time horainicio,horaTermino;
     private Date fecha;
     private ArrayList<Notificacion> notificaciones;
-    private ArrayList<Afiche> afiches;
+    private Afiche afiche;
 
     public Actividad() {
     }
 
-    public Actividad(int idActividad, String nombre, String descripcion, String ubicacion, String tipo, Time hora, Date fecha, ArrayList<Notificacion> notificaciones, ArrayList<Afiche> afiches) {
-        this.idActividad = idActividad;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.ubicacion = ubicacion;
-        this.tipo = tipo;
-        this.hora = hora;
-        this.fecha = fecha;
-        this.notificaciones = notificaciones;
-        this.afiches = afiches;
+    public Time getHoraTermino() {
+        return horaTermino;
+    }
+
+    public void setHoraTermino(Time horaTermino) {
+        this.horaTermino = horaTermino;
+    }
+
+    public Afiche getAfiche() {
+        return afiche;
+    }
+
+    public void setAfiche(Afiche afiche) {
+        this.afiche = afiche;
     }
 
     public int getIdActividad() {
@@ -62,12 +66,12 @@ public class Actividad {
         this.ubicacion = ubicacion;
     }
 
-    public Time getHora() {
-        return hora;
+    public Time getHorainicio() {
+        return horainicio;
     }
 
-    public void setHora(Time hora) {
-        this.hora = hora;
+    public void setHorainicio(Time horainicio) {
+        this.horainicio = horainicio;
     }
 
     public Date getFecha() {
@@ -84,14 +88,6 @@ public class Actividad {
 
     public void setNotificaciones(ArrayList<Notificacion> notificaciones) {
         this.notificaciones = notificaciones;
-    }
-
-    public ArrayList<Afiche> getAfiches() {
-        return afiches;
-    }
-
-    public void setAfiches(ArrayList<Afiche> afiches) {
-        this.afiches = afiches;
     }
 
     public String getTipo() {

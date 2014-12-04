@@ -13,11 +13,6 @@ public class Foto {
     public Foto() {
     }
 
-    public Foto(int idFoto, String fotoSala, Date fechaFoto) {
-        this.idFoto = idFoto;
-        this.fotoSala = fotoSala;
-        this.fechaFoto = fechaFoto;
-    }
 
     public int getIdFoto() {
         return idFoto;

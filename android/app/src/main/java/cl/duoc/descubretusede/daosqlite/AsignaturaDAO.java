@@ -12,8 +12,10 @@ import cl.duoc.descubretusede.model.Asignatura;
 public class AsignaturaDAO {
     private static  DataHelper dataHelper;
     private static SQLiteDatabase asignaturaDB;
+    private Context context;
 
     public AsignaturaDAO(Context context) {
+        this.context = context;
         dataHelper = new DataHelper(context);
 
     }
@@ -21,7 +23,8 @@ public class AsignaturaDAO {
 
         Asignatura asignatura = new Asignatura();
         asignaturaDB = dataHelper.getReadableDatabase();
-        Cursor asignaturaCursor = asignaturaDB.rawQuery("Select nombre_asig,sigla_asig from asignatura where id_asignatura = "+idAsignatura,null);
+        Cursor asignaturaCursor = asignaturaDB.rawQuery("Select nombre_asig,sigla_asig from asignatura " +
+                "where id_asignatura = "+idAsignatura,null);
         if(asignaturaCursor.moveToFirst()) {
             do {
                 asignatura.setIdAsignatura(idAsignatura);
@@ -37,7 +40,23 @@ public class AsignaturaDAO {
     public boolean borrarAsignatura (int idAsignatura){
         try {
             asignaturaDB = dataHelper.getWritableDatabase();
-            return asignaturaDB.delete("Asignatura", "idAsignatura=" + idAsignatura, null) > 0;
+            return asignaturaDB.delete("Asignatura", "id_asignatura=" + idAsignatura, null) > 0;
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
+    public boolean insertAsignatura (Asignatura asignatura){
+        try {
+            asignaturaDB = dataHelper.getWritableDatabase();
+            asignaturaDB.execSQL("insert into asignatura(id_asignatura,nombre_asig,sigla_asig) values ("
+                    +asignatura.getIdAsignatura()+asignatura.getNombreAsig()+asignatura.getSiglaAsig()+")");
+
+            SeccionDAO seccionDAO = new SeccionDAO(context);
+            for (int i = 0; i < asignatura.getSecciones().size(); i++) {
+                seccionDAO.insertSeccion(asignatura.getSecciones().get(i));
+            }
+            return true;
         }
         catch (Exception e){
             return false;

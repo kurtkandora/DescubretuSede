@@ -7,20 +7,22 @@ import java.sql.Time;
  */
 public class Horario {
     private int idHorario;
-    private String DiaClases;
+    private String diaClases;
     private Time horaInicio,horaTermino;
-    private Sala sala;
+    private Aula aula;
+    private int idSeccion;
 
     public Horario() {
     }
 
-    public Horario(int idHorario, String diaClases, Time horaInicio, Time horaTermino, Sala sala) {
-        this.idHorario = idHorario;
-        DiaClases = diaClases;
-        this.horaInicio = horaInicio;
-        this.horaTermino = horaTermino;
-        this.sala = sala;
+    public int getIdSeccion() {
+        return idSeccion;
     }
+
+    public void setIdSeccion(int idSeccion) {
+        this.idSeccion = idSeccion;
+    }
+
 
     public int getIdHorario() {
         return idHorario;
@@ -31,11 +33,11 @@ public class Horario {
     }
 
     public String getDiaClases() {
-        return DiaClases;
+        return diaClases;
     }
 
     public void setDiaClases(String diaClases) {
-        DiaClases = diaClases;
+        this.diaClases = diaClases;
     }
 
     public Time getHoraInicio() {
@@ -54,11 +56,11 @@ public class Horario {
         this.horaTermino = horaTermino;
     }
 
-    public Sala getSala() {
-        return sala;
+    public Aula getAula() {
+        return aula;
     }
 
-    public void setSala(Sala sala) {
-        this.sala = sala;
+    public void setAula(Aula aula) {
+        this.aula = aula;
     }
 }

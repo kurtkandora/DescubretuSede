@@ -13,13 +13,6 @@ public class Asignatura {
     public Asignatura() {
     }
 
-    public Asignatura(int idAsignatura, String nombreAsig, String siglaAsig, ArrayList<Seccion> secciones) {
-        this.idAsignatura = idAsignatura;
-        this.nombreAsig = nombreAsig;
-        this.siglaAsig = siglaAsig;
-        this.secciones = secciones;
-    }
-
     public ArrayList<Seccion> getSecciones() {
         return secciones;
     }

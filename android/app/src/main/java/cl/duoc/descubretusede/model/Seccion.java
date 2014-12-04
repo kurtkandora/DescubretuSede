@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class Seccion {
 
-    private int idSeccion,numeroSeccion;
+    private int idSeccion,numeroSeccion, idAsignatura;
     private String profesor;
     private char jornada;
     private ArrayList<Horario> horarios;
@@ -15,12 +15,12 @@ public class Seccion {
     public Seccion() {
     }
 
-    public Seccion(int idSeccion, int numeroSeccion, String profesor, char jornada, ArrayList<Horario> horarios) {
-        this.idSeccion = idSeccion;
-        this.numeroSeccion = numeroSeccion;
-        this.profesor = profesor;
-        this.jornada = jornada;
-        this.horarios = horarios;
+    public int getIdAsignatura() {
+        return idAsignatura;
+    }
+
+    public void setIdAsignatura(int idAsignatura) {
+        this.idAsignatura = idAsignatura;
     }
 
     public int getIdSeccion() {

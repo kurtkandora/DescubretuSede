@@ -6,15 +6,18 @@ package cl.duoc.descubretusede.model;
 public class Notificacion {
 
     private String notificacion, tipo;
-    private int idNotificacion;
+    private int idNotificacion,idActividad;
 
     public Notificacion() {
     }
 
-    public Notificacion(String notificacion, String tipo, int idNotificacion) {
-        this.notificacion = notificacion;
-        this.tipo = tipo;
-        this.idNotificacion = idNotificacion;
+
+    public int getIdActividad() {
+        return idActividad;
+    }
+
+    public void setIdActividad(int idActividad) {
+        this.idActividad = idActividad;
     }
 
     public String getNotificacion() {

@@ -7,17 +7,21 @@ import java.sql.Date;
  */
 public class Afiche {
     private int idAfiche;
+    private int idActividad;
     private String afiche;
     private Date fechaPublicacion;
 
     public Afiche() {
     }
 
-    public Afiche(int idAfiche, String afiche, Date fechaPublicacion) {
-        this.idAfiche = idAfiche;
-        this.afiche = afiche;
-        this.fechaPublicacion = fechaPublicacion;
+    public int getIdActividad() {
+        return idActividad;
     }
+
+    public void setIdActividad(int idActividad) {
+        this.idActividad = idActividad;
+    }
+
 
     public int getIdAfiche() {
         return idAfiche;

@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import java.sql.Date;
 
 import cl.duoc.descubretusede.model.Foto;
-import cl.duoc.descubretusede.model.Sala;
 
 
 /**
@@ -31,22 +30,6 @@ public class FotoDAO {
                 foto.setIdFoto(idFoto);
                 foto.setFotoSala(fotoCursor.getString(0));
                 foto.setFechaFoto(Date.valueOf(fotoCursor.getString(1)));
-
-            }while(fotoCursor.moveToFirst());
-        }
-        return foto;
-    }
-
-    public Foto getFoto(Sala sala){
-        Foto foto = new Foto();
-        fotoDB = dataHelper.getReadableDatabase();
-        Cursor fotoCursor = fotoDB.rawQuery("Select foto_sala,fecha_foto,id_foto from foto where id_sala = "+sala.getIdSala(),null);
-        if(fotoCursor.moveToFirst()) {
-            do {
-                foto.setIdFoto(fotoCursor.getInt(2));
-                foto.setFotoSala(fotoCursor.getString(0));
-                foto.setFechaFoto(Date.valueOf(fotoCursor.getString(1)));
-
             }while(fotoCursor.moveToFirst());
         }
         return foto;
@@ -62,4 +45,15 @@ public class FotoDAO {
         }
     }
 
+    public boolean insertFoto(Foto fotoSala) {
+        try {
+            fotoDB = dataHelper.getWritableDatabase();
+            fotoDB.execSQL("insert into asignatura(id_foto,foto_sala,fecha_foto) values ("
+                    +fotoSala.getIdFoto()+fotoSala.getFotoSala()+fotoSala.getFechaFoto()+")");
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
 }

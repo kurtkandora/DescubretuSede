@@ -65,10 +65,10 @@ public class PruebaLista extends Activity implements OnItemSelectedListener {
 
 
         //lleno el Hash de prueba
-        map.put("L51","Sala L51");
-        map.put("AV205","Sala AV205");
-        map.put("L55","Sala L55");
-        map.put("AV215","Sala AV215");
+        map.put("L51","Aula L51");
+        map.put("AV205","Aula AV205");
+        map.put("L55","Aula L55");
+        map.put("AV215","Aula AV215");
 
 
         //seteo de Spinner
@@ -122,7 +122,7 @@ public class PruebaLista extends Activity implements OnItemSelectedListener {
             //HttpEntity entity = response.getEntity();
             //is = entity.getContent();
 
-            joba = new JSONArray(convertInputStreamToString(response.getEntity().getContent()).toString());
+            joba = new JSONArray(convertInputStreamToString(response.getEntity().getContent()));
         } catch (Exception e) {
             e.printStackTrace();
         }
