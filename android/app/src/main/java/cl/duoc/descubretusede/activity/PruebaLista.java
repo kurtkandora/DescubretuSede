@@ -15,23 +15,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 
 import cl.duoc.descubretusede.R;
 
@@ -43,9 +28,6 @@ public class PruebaLista extends Activity implements OnItemSelectedListener {
     //Lista y spinner de prueba
     List lista = new ArrayList();
     Spinner sp;
-    SearchView sv;
-    //Lista del resultado de busqueda
-    Map<String,String> map = new Hashtable<String, String>();
     Intent intent;
     static int seleccionado=0;
 
@@ -62,22 +44,18 @@ public class PruebaLista extends Activity implements OnItemSelectedListener {
 
         TextView texto = (TextView) findViewById(R.id.textTest);
 
-
-
-        //lleno el Hash de prueba
-        map.put("L51","Aula L51");
-        map.put("AV205","Aula AV205");
-        map.put("L55","Aula L55");
-        map.put("AV215","Aula AV215");
-
-
         //seteo de Spinner
         sp = (Spinner) findViewById(R.id.spinnerOpciones);
         //llenando lista de prueba
         lista.add("Tipo de Busqueda");
         lista.add("Por Seccion");
         lista.add("Por Docente");
-        lista.add("Opcion 3");
+        lista.add("Por Asignatura");
+        lista.add("Por Aula");
+        lista.add("Por Jornada");
+        lista.add("Por Dia de Clases");
+        lista.add("Por Hora de Inicio");
+        lista.add("Por Hora de Termino");
         //seteando adaptador de spinner
         ArrayAdapter dataAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,lista);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -95,56 +73,15 @@ public class PruebaLista extends Activity implements OnItemSelectedListener {
         intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            busqueda(query,seleccionado);
-        }
-
-
-    }
-
-    //metodo que testea JSON OK
-
-    private void busqueda(String query, int seleccionado){
-        InputStream is = null;
-        String encodeurl="";
-        JSONObject object = new JSONObject();
-        JSONArray joba = new JSONArray();
-        try {
-            HttpClient httpClient = new DefaultHttpClient();
-
-            HttpPost httpPost = new HttpPost ("http://www.descubretusede.comunidadabierta.cl/ws/ws-seccion.php");
-            List<NameValuePair> nvp = new ArrayList<NameValuePair>(2);;
-            object.accumulate("indice",seleccionado);
-            object.accumulate("seccion",query);
-
-            nvp.add(new BasicNameValuePair("send", object.toString()));
-            httpPost.setEntity(new UrlEncodedFormEntity(nvp));
-            HttpResponse response = httpClient.execute(httpPost);
-            //HttpEntity entity = response.getEntity();
-            //is = entity.getContent();
-
-            joba = new JSONArray(convertInputStreamToString(response.getEntity().getContent()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        try{
-            String acuTest ="";
-            JSONObject json = new JSONObject();
-            for (int i = 0; i <joba.length() ; i++) {
-                json = (JSONObject)joba.get(i);
-                acuTest = acuTest + json.getString("profesor");
+            if(seleccionado>=1) {
+                Toast.makeText(getApplicationContext(),"Debe seleccionar un tipo de busqueda",Toast.LENGTH_LONG).show();
+            }else{
+                //BUSCAR!
             }
-            Toast.makeText(getApplicationContext(),acuTest,Toast.LENGTH_SHORT).show();
-        }catch(Exception e){
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),"Fallo",Toast.LENGTH_SHORT).show();
-        };
+        }
 
 
     }
-
-
 
 
     @Override
@@ -166,28 +103,31 @@ public class PruebaLista extends Activity implements OnItemSelectedListener {
                     //Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
                     seleccionado = i;
                     break;
+                case 4:
+                    //Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
+                    seleccionado = i;
+                    break;
+                case 5:
+                    //Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
+                    seleccionado = i;
+                    break;
+                case 6:
+                    //Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
+                    seleccionado = i;
+                    break;
+                case 7:
+                    //Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
+                    seleccionado = i;
+                    break;
+                case 8:
+                    //Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
+                    seleccionado = i;
+                    break;
 
             }
 
 
 
-    }
-
-    private static String convertInputStreamToString(InputStream inputStream) /*throws IOException*/ {
-        String result = "";
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            String line = "";
-
-            while ((line = bufferedReader.readLine()) != null) {
-                result += line;
-            }
-            inputStream.close();
-            return result;
-        }catch (Exception e){
-            e.printStackTrace();
-            return result;
-        }
     }
 
 
