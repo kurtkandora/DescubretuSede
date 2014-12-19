@@ -1,5 +1,7 @@
 package cl.duoc.descubretusede.utils;
 
+import android.content.Context;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -19,16 +21,19 @@ import java.util.List;
 import java.util.Map;
 
 import cl.duoc.descubretusede.daosqlite.SalaDAO;
+import cl.duoc.descubretusede.model.Sala;
 
 /**
  * Created by Administrador on 16/12/2014.
  */
 public class SalaUtil {
-
+    SalaDAO salaDAOobj;
+    Context context;
     Map<Integer,String> map = new Hashtable<Integer, String>();
-    SalaDAO salaDAOobj = new SalaDAO();
+    ArrayList<Sala> salas = new ArrayList<Sala>();
 
-    SalaUtil(){
+    public SalaUtil(Context context){
+        this.context=context;
         llenaReferencias();
     }
 
@@ -43,12 +48,26 @@ public class SalaUtil {
         map.put(9,"hora_termino");
     }
 
-    private void filtrarTipoBusqueda(String query,int seleccionado){
-            switch (seleccionado){
+    public ArrayList<Sala> filtrarTipoBusqueda(String query,int seleccionado){
+        salaDAOobj = new SalaDAO(context);
+        switch (seleccionado){
                 case 1:
                     break;
                 case 2:
+                    if(salaDAOobj.getSalaSeccion(query).size()==0)
+                    {
+                        if(busqueda(query,seleccionado))
+                        {
+                            salas = salaDAOobj.getSalaSeccion(query);
+                        }else
+                        {
+                            salas =null;
+                        }
+                    }else
+                    {
+                        salas = salaDAOobj.getSalaSeccion(query);
 
+                    }
                     break;
                 case 3:
                     break;
@@ -65,12 +84,14 @@ public class SalaUtil {
                 case 9:
                     break;
             }
+        return salas;
 
     }
 
 
 
-    private void busqueda(String query, int seleccionado){
+    private boolean busqueda(String query, int seleccionado){
+        boolean estadoBusqueda=false;
         InputStream is = null;
         String encodeurl="";
         JSONObject object = new JSONObject();
@@ -98,9 +119,19 @@ public class SalaUtil {
         try{
             String acuTest ="";
             JSONObject json = new JSONObject();
+            Sala objSala = new Sala();
             for (int i = 0; i <joba.length() ; i++) {
                 json = (JSONObject)joba.get(i);
-                acuTest = acuTest + json.getString("profesor");
+                objSala.setNombre_aula(json.getString("nombre_aula"));
+                objSala.setNombre_asignatura(json.getString("nombre_asignatura"));
+                objSala.setJornada(json.getString("jornada"));
+                objSala.setId_seccion(json.getString("id_seccion"));
+                objSala.setHora_termino(json.getString("hora_termino"));
+                objSala.setHora_inicio(json.getString("hora_inicio"));
+                objSala.setDia_clases(json.getString("dia_clases"));
+                objSala.setProfesor(json.getString("profesor"));
+                salaDAOobj.insertSala(objSala);
+                estadoBusqueda=true;
             }
             //Toast.makeText(getApplicationContext(), acuTest, Toast.LENGTH_SHORT).show();
         }catch(Exception e){
@@ -108,7 +139,7 @@ public class SalaUtil {
             //Toast.makeText(getApplicationContext(),"Fallo",Toast.LENGTH_SHORT).show();
         };
 
-
+        return estadoBusqueda;
     }
 
 

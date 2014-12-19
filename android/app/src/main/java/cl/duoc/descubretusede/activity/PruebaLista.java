@@ -1,9 +1,11 @@
 package cl.duoc.descubretusede.activity;
 
 import android.app.Activity;
+import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
@@ -19,12 +21,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cl.duoc.descubretusede.R;
+import cl.duoc.descubretusede.daosqlite.DataHelper;
+import cl.duoc.descubretusede.model.Sala;
+import cl.duoc.descubretusede.utils.SalaUtil;
 
 /**
  * Created by Administrador on 11/11/2014.
  */
 
-public class PruebaLista extends Activity implements OnItemSelectedListener {
+public class PruebaLista extends ListActivity implements OnItemSelectedListener {
     //Lista y spinner de prueba
     List lista = new ArrayList();
     Spinner sp;
@@ -41,6 +46,10 @@ public class PruebaLista extends Activity implements OnItemSelectedListener {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
+        //BD
+        DataHelper objDataHelpter = new DataHelper(this);
+        SQLiteDatabase db = objDataHelpter.getWritableDatabase();
+
 
         TextView texto = (TextView) findViewById(R.id.textTest);
 
@@ -69,15 +78,27 @@ public class PruebaLista extends Activity implements OnItemSelectedListener {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false);
 
+
+        //objeto Util
+        SalaUtil objSalaUtil = new SalaUtil(this);
         //Reconoce lo que se ha buscado la vez anterior
         intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            if(seleccionado>=1) {
+            if(seleccionado<=1) {
                 Toast.makeText(getApplicationContext(),"Debe seleccionar un tipo de busqueda",Toast.LENGTH_LONG).show();
             }else{
-                //BUSCAR!
+                if(objSalaUtil.filtrarTipoBusqueda(query,seleccionado)!=null)
+                {
+                    ArrayAdapter<Sala> salaAdapter = new ArrayAdapter<Sala>(this, android.R.layout.simple_list_item_1,objSalaUtil.filtrarTipoBusqueda(query,seleccionado));
+                    setListAdapter(salaAdapter);
+                }else{
+                    Toast.makeText(getApplicationContext(),"Sala no encontrada!",Toast.LENGTH_LONG).show();
+                }
             }
+
+
+
         }
 
 

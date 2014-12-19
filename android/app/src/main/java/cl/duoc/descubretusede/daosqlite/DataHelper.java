@@ -15,10 +15,18 @@ public class DataHelper extends SQLiteOpenHelper {
 //todo: crear el script de la tabla
     private static final String DICTIONARY_TABLE_CREATE =
             "CREATE TABLE " + DICTIONARY_TABLE_NAME + " ( " +
-                    "ID INTEGER NOT NULL PRIMARY KEY);";
+                    "_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                    "id_seccion text not null," +
+                    "jornada text not null," +
+                    "profesor text not null," +
+                    "nombre_asignatura text not null," +
+                    "nombre_aula text not null," +
+                    "hora_inicio text not null," +
+                    "hora_termino text not null," +
+                    "dia_clases text not null);";
 
 
-    DataHelper(Context context) {
+    public DataHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
