@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import cl.duoc.descubretusede.R;
@@ -90,7 +91,9 @@ public class PruebaLista extends ListActivity implements OnItemSelectedListener 
             }else{
                 if(objSalaUtil.filtrarTipoBusqueda(query,seleccionado)!=null)
                 {
-                    ArrayAdapter<Sala> salaAdapter = new ArrayAdapter<Sala>(this, android.R.layout.simple_list_item_1,objSalaUtil.filtrarTipoBusqueda(query,seleccionado));
+                    ArrayList<String> elarray= retorna(objSalaUtil.filtrarTipoBusqueda(query,seleccionado));
+
+                    ArrayAdapter<String> salaAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,elarray);
                     setListAdapter(salaAdapter);
                 }else{
                     Toast.makeText(getApplicationContext(),"Sala no encontrada!",Toast.LENGTH_LONG).show();
@@ -103,6 +106,18 @@ public class PruebaLista extends ListActivity implements OnItemSelectedListener 
 
 
     }
+
+
+     public ArrayList<String> retorna(ArrayList<Sala> lista){
+         ArrayList<String> listaResultado= new ArrayList<String>();
+
+         for (int i = 0; i < lista.size(); i++) {
+             listaResultado.add(i,"Sala: "+lista.get(i).getNombre_aula());
+         }
+
+         return  listaResultado;
+
+     }
 
 
     @Override

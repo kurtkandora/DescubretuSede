@@ -60,7 +60,7 @@ public class SalaDAO {
         ArrayList<Sala> salas = new ArrayList<Sala>();
         Sala sala= new Sala();
         sqLiteDatabase = dataHelper.getReadableDatabase();
-        Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,JORNADA,NOMBRE_ASIGNATURA,NOMBRE_AULA,HORA_INICIO,HORA_TERMINO,DIA_CLASES from sala " +
+        Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,JORNADA,NOMBRE_ASIGNATURA,NOMBRE_AULA,HORA_INICIO,HORA_TERMINO,DIA_CLASES from dts " +
                 "where PROFESOR = "+docente,null);
         if(salaCursor.moveToFirst()) {
             do {
@@ -84,7 +84,7 @@ public class SalaDAO {
         ArrayList<Sala> salas = new ArrayList<Sala>();
         Sala sala= new Sala();
         sqLiteDatabase = dataHelper.getReadableDatabase();
-        Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,PROFESOR,JORNADA,NOMBRE_AULA,HORA_INICIO,HORA_TERMINO,DIA_CLASES from sala " +
+        Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,PROFESOR,JORNADA,NOMBRE_AULA,HORA_INICIO,HORA_TERMINO,DIA_CLASES from dts " +
                 "where NOMBRE_ASIGNATURA = "+asignatura,null);
         if(salaCursor.moveToFirst()) {
             do {
@@ -107,7 +107,7 @@ public class SalaDAO {
         ArrayList<Sala> salas = new ArrayList<Sala>();
         Sala sala= new Sala();
         sqLiteDatabase = dataHelper.getReadableDatabase();
-        Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,PROFESOR,JORNADA,NOMBRE_ASIGNATURA,HORA_INICIO,HORA_TERMINO,DIA_CLASES from sala " +
+        Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,PROFESOR,JORNADA,NOMBRE_ASIGNATURA,HORA_INICIO,HORA_TERMINO,DIA_CLASES from dts " +
                 "where NOMBRE_AULA = "+aula,null);
         if(salaCursor.moveToFirst()) {
             do {
@@ -131,7 +131,7 @@ public class SalaDAO {
         ArrayList<Sala> salas = new ArrayList<Sala>();
         Sala sala= new Sala();
         sqLiteDatabase = dataHelper.getReadableDatabase();
-        Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,PROFESOR,NOMBRE_ASIGNATURA,NOMBRE_AULA,HORA_INICIO,HORA_TERMINO,DIA_CLASES from sala " +
+        Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,PROFESOR,NOMBRE_ASIGNATURA,NOMBRE_AULA,HORA_INICIO,HORA_TERMINO,DIA_CLASES from dts " +
                 "where JORNADA = "+jornada,null);
         if(salaCursor.moveToFirst()) {
             do {
@@ -155,7 +155,7 @@ public class SalaDAO {
         ArrayList<Sala>salas = new ArrayList<Sala>();
         Sala sala= new Sala();
         sqLiteDatabase = dataHelper.getReadableDatabase();
-        Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,JORNADA,PROFESOR,NOMBRE_ASIGNATURA,NOMBRE_AULA,HORA_INICIO,HORA_TERMINO from sala " +
+        Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,JORNADA,PROFESOR,NOMBRE_ASIGNATURA,NOMBRE_AULA,HORA_INICIO,HORA_TERMINO from dts " +
                 "where DIA_CLASES= "+dia,null);
         if(salaCursor.moveToFirst()) {
             do {
@@ -179,7 +179,7 @@ public class SalaDAO {
         ArrayList<Sala>salas = new ArrayList<Sala>();
         Sala sala= new Sala();
         sqLiteDatabase = dataHelper.getReadableDatabase();
-        Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,JORNADA,PROFESOR,NOMBRE_ASIGNATURA,NOMBRE_AULA,HORA_TERMINO,DIA_CLASES from sala " +
+        Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,JORNADA,PROFESOR,NOMBRE_ASIGNATURA,NOMBRE_AULA,HORA_TERMINO,DIA_CLASES from dts " +
                 "where HORA_INICIO= "+horai,null);
         if(salaCursor.moveToFirst()) {
             do {
@@ -202,7 +202,7 @@ public class SalaDAO {
         ArrayList<Sala>salas = new ArrayList<Sala>();
         Sala sala= new Sala();
         sqLiteDatabase = dataHelper.getReadableDatabase();
-        Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,JORNADA,PROFESOR,NOMBRE_ASIGNATURA,NOMBRE_AULA,HORA_INICIO,DIA_CLASES from sala " +
+        Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,JORNADA,PROFESOR,NOMBRE_ASIGNATURA,NOMBRE_AULA,HORA_INICIO,DIA_CLASES from dts " +
                 "where HORA_TERMINO= "+horat,null);
         if(salaCursor.moveToFirst()) {
             do {

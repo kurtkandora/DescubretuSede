@@ -25,7 +25,7 @@ public class DataHelper extends SQLiteOpenHelper {
                     "hora_termino text not null," +
                     "dia_clases text not null);";
 
-
+//HOLI
     public DataHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
