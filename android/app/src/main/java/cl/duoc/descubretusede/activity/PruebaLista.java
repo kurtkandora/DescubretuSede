@@ -1,6 +1,5 @@
 package cl.duoc.descubretusede.activity;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Context;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import cl.duoc.descubretusede.R;
@@ -79,34 +77,32 @@ public class PruebaLista extends ListActivity implements OnItemSelectedListener 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false);
 
-
         //objeto Util
         SalaUtil objSalaUtil = new SalaUtil(this);
         //Reconoce lo que se ha buscado la vez anterior
         intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            if(seleccionado<=1) {
-                Toast.makeText(getApplicationContext(),"Debe seleccionar un tipo de busqueda",Toast.LENGTH_LONG).show();
-            }else{
-                if(objSalaUtil.filtrarTipoBusqueda(query,seleccionado)!=null)
-                {
-                    ArrayList<String> elarray= retorna(objSalaUtil.filtrarTipoBusqueda(query,seleccionado));
+            if (seleccionado == 0)
+            {
+                finish();
+            }else {
+                String query = intent.getStringExtra(SearchManager.QUERY);
+                if (seleccionado <= 1) {
+                    Toast.makeText(getApplicationContext(), "Debe seleccionar un tipo de busqueda", Toast.LENGTH_LONG).show();
+                } else {
+                    if (objSalaUtil.filtrarTipoBusqueda(query, seleccionado) != null) {
+                        ArrayList<String> elarray = retorna(objSalaUtil.filtrarTipoBusqueda(query, seleccionado));
 
-                    ArrayAdapter<String> salaAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,elarray);
-                    setListAdapter(salaAdapter);
-                }else{
-                    Toast.makeText(getApplicationContext(),"Sala no encontrada!",Toast.LENGTH_LONG).show();
+                        ArrayAdapter<String> salaAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, elarray);
+                        setListAdapter(salaAdapter);
+                        seleccionado = 0;
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Sala no encontrada!", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
-
-
-
         }
-
-
     }
-
 
      public ArrayList<String> retorna(ArrayList<Sala> lista){
          ArrayList<String> listaResultado= new ArrayList<String>();
@@ -114,9 +110,7 @@ public class PruebaLista extends ListActivity implements OnItemSelectedListener 
          for (int i = 0; i < lista.size(); i++) {
              listaResultado.add(i,"Sala: "+lista.get(i).getNombre_aula());
          }
-
          return  listaResultado;
-
      }
 
 
@@ -125,45 +119,7 @@ public class PruebaLista extends ListActivity implements OnItemSelectedListener 
         //mostrando opciones seleccionadas (solo para ver si los datos son devueltos)
         //intent.putExtra("tipoBusqueda","tipoBusqueda");
            //para que comienze desde Indice 2 (Busqueda por Seccion)
-            i++;
-            switch (i){
-                case 1:
-                    //Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
-                    seleccionado = i;
-                    break;
-                case 2:
-                    //Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
-                    seleccionado = i;
-                    break;
-                case 3:
-                    //Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
-                    seleccionado = i;
-                    break;
-                case 4:
-                    //Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
-                    seleccionado = i;
-                    break;
-                case 5:
-                    //Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
-                    seleccionado = i;
-                    break;
-                case 6:
-                    //Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
-                    seleccionado = i;
-                    break;
-                case 7:
-                    //Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
-                    seleccionado = i;
-                    break;
-                case 8:
-                    //Toast.makeText(getApplicationContext(),lista.get(i).toString(),Toast.LENGTH_SHORT).show();
-                    seleccionado = i;
-                    break;
-
-            }
-
-
-
+        seleccionado = i+1;
     }
 
 

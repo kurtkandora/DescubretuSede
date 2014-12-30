@@ -5,7 +5,24 @@ package cl.duoc.descubretusede.model;
  */
 public class Sala {
 
-    private String id_seccion,profesor,nombre_asignatura, nombre_aula,hora_inicio, hora_termino,dia_clases,jornada;
+    private String id_seccion;
+    private String profesor;
+    private String nombre_asignatura;
+    private String nombre_aula;
+    private String hora_inicio;
+    private String hora_termino;
+    private String dia_clases;
+    private String jornada;
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    private String imagen ;
 
     public Sala(){
 
