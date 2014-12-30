@@ -106,7 +106,6 @@ public class PruebaLista extends ListActivity implements OnItemSelectedListener 
 
      public ArrayList<String> retorna(ArrayList<Sala> lista){
          ArrayList<String> listaResultado= new ArrayList<String>();
-
          for (int i = 0; i < lista.size(); i++) {
              listaResultado.add(i,"Sala: "+lista.get(i).getNombre_aula());
          }
