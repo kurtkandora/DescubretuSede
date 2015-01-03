@@ -27,7 +27,7 @@ public class ImageManager {
     }
 
     public Bitmap sacarDeAndroid(String nombreSala){
-        Bitmap imagen = BitmapFactory.decodeFile("/DUOC/" + nombreSala + ".jpg");
+        Bitmap imagen = BitmapFactory.decodeFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + nombreSala + ".jpg");
         return imagen;
     }
 
@@ -37,7 +37,7 @@ public class ImageManager {
             nombreSala = nombreSala.toLowerCase();
             URL url = new URL("http://descubretusede.comunidadabierta.cl/imagenes/"+ nombreSala);
                     File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                            + "/DUOC/");
+                            + "/" + nombreSala);
 
             long startTime = System.currentTimeMillis();
             Log.d("ImageManager", "download begining");
