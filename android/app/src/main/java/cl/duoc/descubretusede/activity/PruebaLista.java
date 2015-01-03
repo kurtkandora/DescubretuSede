@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ public class PruebaLista extends ListActivity implements OnItemSelectedListener 
     Intent intent;
     static int seleccionado=0;
     private ArrayList<Sala> mlistaSalas;
+    protected ProgressBar mProgressBar;
 
 
     @Override
@@ -43,6 +45,8 @@ public class PruebaLista extends ListActivity implements OnItemSelectedListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_busqueda);
         //para usar INTERNET en el mismo THREAD
+        mProgressBar= (ProgressBar) findViewById(R.id.progressBar);
+        mProgressBar.setVisibility(View.INVISIBLE);
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -84,6 +88,7 @@ public class PruebaLista extends ListActivity implements OnItemSelectedListener 
         //Reconoce lo que se ha buscado la vez anterior
         intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            mProgressBar.setVisibility(View.VISIBLE);
             if (seleccionado == 0)
             {
                 finish();
@@ -104,6 +109,7 @@ public class PruebaLista extends ListActivity implements OnItemSelectedListener 
                     }
                 }
             }
+            mProgressBar.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -134,7 +140,7 @@ public class PruebaLista extends ListActivity implements OnItemSelectedListener 
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         Intent intent = new Intent(this, Imagen.class);
-        intent.putExtra("nombreSala" , mlistaSalas.get(position).getNombre_aula());
+        intent.putExtra("nombreSala", mlistaSalas.get(position).getNombre_aula());
         startActivity(intent);
 
     }
