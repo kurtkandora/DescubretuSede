@@ -14,17 +14,9 @@ public class Sala {
     private String dia_clases;
     private String jornada;
 
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
-    }
-
-    private String imagen ;
-
     public Sala(){
+
+
 
     }
 

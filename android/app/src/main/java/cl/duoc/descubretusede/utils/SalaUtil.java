@@ -111,6 +111,7 @@ public class SalaUtil {
             //is = entity.getContent();
 
             joba = new JSONArray(convertInputStreamToString(response.getEntity().getContent()));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -122,6 +123,8 @@ public class SalaUtil {
             Sala objSala = new Sala();
             for (int i = 0; i <joba.length() ; i++) {
                 json = (JSONObject)joba.get(i);
+                ImageManager imageManager = new ImageManager(context);
+                imageManager.DownloadFromUrl(json.getString("nombre_aula"));
                 objSala.setNombre_aula(json.getString("nombre_aula"));
                 objSala.setNombre_asignatura(json.getString("nombre_asignatura"));
                 objSala.setJornada(json.getString("jornada"));
@@ -131,6 +134,7 @@ public class SalaUtil {
                 objSala.setDia_clases(json.getString("dia_clases"));
                 objSala.setProfesor(json.getString("profesor"));
                 salaDAOobj.insertSala(objSala);
+
                 estadoBusqueda=true;
             }
             //Toast.makeText(getApplicationContext(), acuTest, Toast.LENGTH_SHORT).show();

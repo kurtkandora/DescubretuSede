@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ public class PruebaLista extends ListActivity implements OnItemSelectedListener 
     Spinner sp;
     Intent intent;
     static int seleccionado=0;
+    private ArrayList<Sala> mlistaSalas;
 
 
     @Override
@@ -91,7 +93,8 @@ public class PruebaLista extends ListActivity implements OnItemSelectedListener 
                     Toast.makeText(getApplicationContext(), "Debe seleccionar un tipo de busqueda", Toast.LENGTH_LONG).show();
                 } else {
                     if (objSalaUtil.filtrarTipoBusqueda(query, seleccionado) != null) {
-                        ArrayList<String> elarray = retorna(objSalaUtil.filtrarTipoBusqueda(query, seleccionado));
+                        mlistaSalas = objSalaUtil.filtrarTipoBusqueda(query, seleccionado);
+                        ArrayList<String> elarray = retorna();
 
                         ArrayAdapter<String> salaAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, elarray);
                         setListAdapter(salaAdapter);
@@ -104,10 +107,10 @@ public class PruebaLista extends ListActivity implements OnItemSelectedListener 
         }
     }
 
-     public ArrayList<String> retorna(ArrayList<Sala> lista){
+     public ArrayList<String> retorna(){
          ArrayList<String> listaResultado= new ArrayList<String>();
-         for (int i = 0; i < lista.size(); i++) {
-             listaResultado.add(i,"Sala: "+lista.get(i).getNombre_aula());
+         for (int i = 0; i < mlistaSalas.size(); i++) {
+             listaResultado.add(i,"Sala: "+mlistaSalas.get(i).getNombre_aula());
          }
          return  listaResultado;
      }
@@ -126,6 +129,16 @@ public class PruebaLista extends ListActivity implements OnItemSelectedListener 
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        Intent intent = new Intent(this, Imagen.class);
+        intent.putExtra("nombreSala" , mlistaSalas.get(position).getNombre_aula());
+        startActivity(intent);
+
+    }
+
 
 
 }
