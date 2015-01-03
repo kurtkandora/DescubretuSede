@@ -3,6 +3,7 @@ package cl.duoc.descubretusede.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.util.Log;
 
 import org.apache.http.util.ByteArrayBuffer;
@@ -26,15 +27,17 @@ public class ImageManager {
     }
 
     public Bitmap sacarDeAndroid(String nombreSala){
-        Bitmap imagen = BitmapFactory.decodeFile("DUOC/" + nombreSala + ".jpg");
+        Bitmap imagen = BitmapFactory.decodeFile("/DUOC/" + nombreSala + ".jpg");
         return imagen;
     }
 
     public void DownloadFromUrl(String nombreSala) {
         try {
             nombreSala +=".jpg";
+            nombreSala = nombreSala.toLowerCase();
             URL url = new URL("http://descubretusede.comunidadabierta.cl/imagenes/"+ nombreSala);
-                    File file = new File("DUOC/"+nombreSala);
+                    File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                            + "/DUOC/");
 
             long startTime = System.currentTimeMillis();
             Log.d("ImageManager", "download begining");
