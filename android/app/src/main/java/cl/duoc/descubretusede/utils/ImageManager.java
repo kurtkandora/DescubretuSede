@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
-import android.widget.ImageView;
 
 import org.apache.http.util.ByteArrayBuffer;
 
@@ -26,16 +25,14 @@ public class ImageManager {
         context = c;
     }
 
-    public ImageView sacarDeAndroid(String nombreSala){
+    public Bitmap sacarDeAndroid(String nombreSala){
         Bitmap imagen = BitmapFactory.decodeFile("DUOC/" + nombreSala + ".jpg");
-        ImageView imageView = new ImageView(context);
-        imageView.setImageBitmap(imagen);
-        return imageView;
+        return imagen;
     }
 
     public void DownloadFromUrl(String nombreSala) {
         try {
-            nombreSala +="jpg";
+            nombreSala +=".jpg";
             URL url = new URL("http://descubretusede.comunidadabierta.cl/imagenes/"+ nombreSala);
                     File file = new File("DUOC/"+nombreSala);
 
