@@ -25,7 +25,7 @@ public class ImageManager {
     public ImageManager(Context c) {
         context = c;
     }
-
+//todo: comprobar si el archivo existe y bajarlo si no
     public Bitmap sacarDeAndroid(String nombreSala){
         Bitmap imagen = BitmapFactory.decodeFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + nombreSala + ".jpg");
         return imagen;
