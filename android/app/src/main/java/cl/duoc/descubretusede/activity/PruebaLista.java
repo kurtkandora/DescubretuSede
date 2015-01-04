@@ -65,7 +65,7 @@ public class PruebaLista extends ListActivity implements OnItemSelectedListener 
         lista.add("Por Seccion");
         lista.add("Por Docente");
         lista.add("Por Asignatura");
-        lista.add("Por Aula");
+        lista.add("Por Sala");
         lista.add("Por Jornada");
         lista.add("Por Dia de Clases");
         lista.add("Por Hora de Inicio");
@@ -140,7 +140,16 @@ public class PruebaLista extends ListActivity implements OnItemSelectedListener 
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         Intent intent = new Intent(this, Imagen.class);
+        Sala objSala = mlistaSalas.get(position);
         intent.putExtra("nombreSala", mlistaSalas.get(position).getNombre_aula());
+        intent.putExtra("diaClases", mlistaSalas.get(position).getDia_clases());
+        intent.putExtra("horaInicio", mlistaSalas.get(position).getHora_inicio());
+        intent.putExtra("horaTermino", mlistaSalas.get(position).getHora_termino());
+        intent.putExtra("idSeccion", mlistaSalas.get(position).getId_seccion());
+        intent.putExtra("jornada", mlistaSalas.get(position).getJornada());
+        intent.putExtra("nombreAsig", mlistaSalas.get(position).getNombre_asignatura());
+        intent.putExtra("profesor", mlistaSalas.get(position).getProfesor());
+
         startActivity(intent);
 
     }

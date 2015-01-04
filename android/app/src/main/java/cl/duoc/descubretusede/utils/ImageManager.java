@@ -24,11 +24,33 @@ public class ImageManager {
 
     public ImageManager(Context c) {
         context = c;
+        creaDirectorio();
     }
+
+
+
+    public void creaDirectorio(){
+        File directorioImagenes = new File("/sdcard/duoc/");
+        if(!directorioImagenes.exists())
+        {
+            directorioImagenes.mkdirs();
+        }
+    }
+
 //todo: comprobar si el archivo existe y bajarlo si no
     public Bitmap sacarDeAndroid(String nombreSala){
-        Bitmap imagen = BitmapFactory.decodeFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + nombreSala + ".jpg");
-        return imagen;
+      // Bitmap imagen = BitmapFactory.decodeFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + nombreSala + ".jpg");
+        nombreSala = nombreSala.toLowerCase();
+        Bitmap imagen = BitmapFactory.decodeFile("/sdcard/duoc/" + nombreSala + ".jpg");
+        if(imagen !=null)
+        {
+            return imagen;
+        }else{
+            DownloadFromUrl(nombreSala);
+          //  imagen = BitmapFactory.decodeFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + nombreSala + ".jpg");
+            imagen = BitmapFactory.decodeFile("/sdcard/duoc/" + nombreSala + ".jpg");
+            return imagen;
+        }
     }
 
     public void DownloadFromUrl(String nombreSala) {
@@ -36,12 +58,14 @@ public class ImageManager {
             nombreSala +=".jpg";
             nombreSala = nombreSala.toLowerCase();
             URL url = new URL("http://descubretusede.comunidadabierta.cl/imagenes/"+ nombreSala);
-                    File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                            + "/" + nombreSala);
+                 //   File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                 //          + "/" + nombreSala);
 
+             File file = new File("/sdcard/duoc/" + nombreSala);
             long startTime = System.currentTimeMillis();
             Log.d("ImageManager", "download begining");
             Log.d("ImageManager", "download url:" + url);
+            Log.d("ImageManager", "El Path"+file.getAbsolutePath());
             Log.d("ImageManager", "downloaded file name:" + nombreSala);
                         /* Open a connection to that URL. */
             URLConnection ucon = url.openConnection();

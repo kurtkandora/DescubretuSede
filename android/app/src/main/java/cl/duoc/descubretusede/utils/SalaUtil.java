@@ -70,25 +70,121 @@ public class SalaUtil {
                     }
                     break;
                 case 3:
+                    if(salaDAOobj.getSalaDocente(query).size()==0)
+                    {
+                        if(busqueda(query,seleccionado))
+                        {
+                            salas = salaDAOobj.getSalaDocente(query);
+                        }else
+                        {
+                            salas =null;
+                        }
+                    }else
+                    {
+                        salas = salaDAOobj.getSalaDocente(query);
+
+                    }
                     break;
                 case 4:
+                    if(salaDAOobj.getSalaAsignatura(query).size()==0)
+                    {
+                        if(busqueda(query,seleccionado))
+                        {
+                            salas = salaDAOobj.getSalaAsignatura(query);
+                        }else
+                        {
+                            salas =null;
+                        }
+                    }else
+                    {
+                        salas = salaDAOobj.getSalaAsignatura(query);
+
+                    }
                     break;
                 case 5:
+                    if(salaDAOobj.getSalaAula(query).size()==0)
+                    {
+                        if(busqueda(query,seleccionado))
+                        {
+                            salas = salaDAOobj.getSalaAula(query);
+                        }else
+                        {
+                            salas =null;
+                        }
+                    }else
+                    {
+                        salas = salaDAOobj.getSalaAula(query);
+
+                    }
                     break;
                 case 6:
+                    if(salaDAOobj.getSalaJornada(query).size()==0)
+                    {
+                        if(busqueda(query,seleccionado))
+                        {
+                            salas = salaDAOobj.getSalaJornada(query);
+                        }else
+                        {
+                            salas =null;
+                        }
+                    }else
+                    {
+                        salas = salaDAOobj.getSalaJornada(query);
+
+                    }
                     break;
                 case 7:
+                    if(salaDAOobj.getSalaDia(query).size()==0)
+                    {
+                        if(busqueda(query,seleccionado))
+                        {
+                            salas = salaDAOobj.getSalaDia(query);
+                        }else
+                        {
+                            salas =null;
+                        }
+                    }else
+                    {
+                        salas = salaDAOobj.getSalaDia(query);
+
+                    }
                     break;
                 case 8:
+                    if(salaDAOobj.getSalaHoraI(query).size()==0)
+                    {
+                        if(busqueda(query,seleccionado))
+                        {
+                            salas = salaDAOobj.getSalaHoraI(query);
+                        }else
+                        {
+                            salas =null;
+                        }
+                    }else
+                    {
+                        salas = salaDAOobj.getSalaHoraI(query);
+
+                    }
                     break;
                 case 9:
+                    if(salaDAOobj.getSalaHoraT(query).size()==0)
+                    {
+                        if(busqueda(query,seleccionado))
+                        {
+                            salas = salaDAOobj.getSalaHoraT(query);
+                        }else
+                        {
+                            salas =null;
+                        }
+                    }else
+                    {
+                        salas = salaDAOobj.getSalaHoraT(query);
+
+                    }
                     break;
             }
         return salas;
 
     }
-
-
 
     private boolean busqueda(String query, int seleccionado){
         boolean estadoBusqueda=false;
