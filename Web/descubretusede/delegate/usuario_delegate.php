@@ -1,8 +1,8 @@
 <?php
-    require_once'../model/usuario.php';
-	require_once'../dao/usuario_dao.php';
-    
-    class PerfilDelegate{
+	require_once '../dao/usuario_dao.php';
+    require_once '../model/usuario.php';
+	
+    class UsuarioDelegate{
     	
 	 private $usuario_dao;
 	 
@@ -28,17 +28,16 @@
 	   
 	   function actualizarUsuario(Usuario $usuario){
 	      	
-	       if($this->perfil_dao->update($usuario)){
+	       if($this->usuario_dao->update($usuario)){
 	           return TRUE;
 	       }else{
 	       	   return FALSE;
 	       }
-		  
 	   }
 	   
 	   function eliminarUsuario(Usuario $usuario){
 	     
-		   if($this->perfil_dao->delete($usuario)){
+		   if($this->usuario_dao->delete($usuario)){
 		   	  return TRUE;
 		   }else{
 		   	  return FALSE;
@@ -47,13 +46,11 @@
 	   }
 	   
 	   function listarUsuarios(){
-	   	
 	      $lista_usuarios = $this->usuario_dao->select();
 		  return $lista_usuarios;	
 	   }
 	   
 	   function __destruct() {
-	   	
 	      $this->usuario_dao->__destruct();
           unset($this);
        }

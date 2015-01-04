@@ -44,6 +44,12 @@
 		  }
 	   }
 	   
+	   function listarPasswords()
+	   {
+	   	 $listadoPasswords=$this->password_dao->select();
+		 return $listadoPasswords;
+	   }
+	   
 	    function __destruct() {
 	    	
 	      $this->password_dao->__destruct();

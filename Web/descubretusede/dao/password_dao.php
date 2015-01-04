@@ -111,11 +111,30 @@
 	   }
 	   
 	   function select(){
-	   	
+	   	$password = new Password();
+	//	$password = $obj;
+		try{
+			$query = 'SELECT `ID_USUARIO`, `HASH_PASS`, `FECHA_CADUCIDAD`, `ESTADO_PASS` FROM `password`;';
+			$sentencia = $this->mysql_con->prepare($query);
+			if($sentencia->execute()){
+				$sentencia->bind_result($id_usuario, $hash_pass, $fecha_caducidad, $estado_pass);					
+	            while($sentencia->fetch()){
+					$password->__destruct();
+                    $password->init($id_usuario, $hash_pass, $fecha_caducidad, $estado_pass);
+	            }	
+			}
+			$this->mysql_con->close();
+		}
+		catch(exception $e){
+			$this->mysql_con->close();
+			error_log($e);
+			return false;
+		  }
+		 return $password;
 	   }
 	   
 	   function __destruct() {
-	   	  $this->mysql_con->close();
+	   	 // $this->mysql_con->close();
           unset($this);
        }
 	}

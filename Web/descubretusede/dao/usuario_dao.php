@@ -67,7 +67,7 @@
 	   	try{
 		    $query = 'UPDATE `usuario` SET `ID_PERFIL`=?,`NOMBRE_USUARIO`=?,`APELLIDO_PATERNO`=?,`APELLIDO_MATERNO`=?,`RUN`=? WHERE `ID_USUARIO`=? AND `EMAIL_USUARIO`=?;';
 			$sentencia = $this->mysql_con->prepare($query);
-			$sentencia->bind_param("sssssis",$usuario->id_perfil,$usuario->nombre_usuario,$usuario->apellido_paterno,$usuario->apellido_materno,$usuario->run,$usuario->id_usuario,$usuario->email_usuario);
+			$sentencia->bind_param("issssis",$usuario->id_perfil,$usuario->nombre_usuario,$usuario->apellido_paterno,$usuario->apellido_materno,$usuario->run,$usuario->id_usuario,$usuario->email_usuario);
 			$sentencia->execute();
 			if($this->mysql_con->affected_rows){
 				$this->mysql_con->commit();
@@ -76,7 +76,7 @@
 				$this->mysql_con->rollback();
 				return FALSE;
 			}
-			//$this->mysql_con->close();
+			$this->mysql_con->close();
 			$usuario->__destruct();
 		}
 		catch(exception $e){
@@ -127,7 +127,7 @@
 					  $usuario->__destruct();
 	            }	
 			}
-			//$this->mysql_con->close();
+			$this->mysql_con->close();
 		}
 		catch(exception $e){
 			$this->mysql_con->close();
@@ -137,8 +137,8 @@
 		 return $lista_usuarios;
 	   }
 	   
-	   function __destruct() {
-	   	  $this->mysql_con->close();
+	  function __destruct() {
+	   	  //$this->mysql_con->close();
           unset($this);
        }
 	}
