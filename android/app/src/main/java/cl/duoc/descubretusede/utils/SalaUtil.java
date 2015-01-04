@@ -219,8 +219,6 @@ public class SalaUtil {
             Sala objSala = new Sala();
             for (int i = 0; i <joba.length() ; i++) {
                 json = (JSONObject)joba.get(i);
-                ImageManager imageManager = new ImageManager(context);
-                imageManager.DownloadFromUrl(json.getString("nombre_aula"));
                 objSala.setNombre_aula(json.getString("nombre_aula"));
                 objSala.setNombre_asignatura(json.getString("nombre_asignatura"));
                 objSala.setJornada(json.getString("jornada"));

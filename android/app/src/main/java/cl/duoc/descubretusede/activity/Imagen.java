@@ -2,64 +2,37 @@ package cl.duoc.descubretusede.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.io.File;
-import java.net.URI;
 
 import cl.duoc.descubretusede.R;
 import cl.duoc.descubretusede.activity.util.SystemUiHider;
 import cl.duoc.descubretusede.model.Sala;
 import cl.duoc.descubretusede.utils.ImageManager;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- *
- * @see SystemUiHider
- */
 public class Imagen extends Activity implements View.OnTouchListener {
-    /**
-     * Whether or not the system UI should be auto-hidden after
-     * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
-     */
-    private static final boolean AUTO_HIDE = true;
 
-    /**
-     * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
-     * user interaction before hiding the system UI.
-     */
-    private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
 
-    /**
-     * If set, will toggle the system UI visibility upon interaction. Otherwise,
-     * will show the system UI visibility upon interaction.
-     */
-    private static final boolean TOGGLE_ON_CLICK = true;
-
-    /**
-     * The flags to pass to {@link SystemUiHider#getInstance}.
-     */
-    private static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
-
-    /**
-     * The instance of the {@link SystemUiHider} for this activity.
-     */
     private SystemUiHider mSystemUiHider;
-    Sala objSala = new Sala();
+    private Sala mObjSala;
+    protected ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mObjSala = new Sala();
+
+        //todo: no se va a ver la barra de progreso si no es una tarea asincrona
+        //mProgressBar= (ProgressBar) findViewById(R.id.progressBarImagen);
+        //mProgressBar.setVisibility(View.VISIBLE);
+
         setContentView(R.layout.activity_imagen);
         TextView fill0 = (TextView)findViewById(R.id.fill0);
         TextView fill1 = (TextView)findViewById(R.id.fill1);
@@ -72,19 +45,19 @@ public class Imagen extends Activity implements View.OnTouchListener {
         try {
 
             Intent intent = getIntent();
-            objSala.setNombre_aula(intent.getStringExtra("nombreSala"));
-            objSala.setDia_clases(intent.getStringExtra("diaClases"));
-            objSala.setId_seccion(intent.getStringExtra("idSeccion"));
-            objSala.setJornada(intent.getStringExtra("jornada"));
-            objSala.setHora_inicio(intent.getStringExtra("horaInicio"));
-            objSala.setHora_termino(intent.getStringExtra("horaTermino"));
-            objSala.setNombre_asignatura(intent.getStringExtra("nombreAsig"));
-            objSala.setProfesor(intent.getStringExtra("profesor"));
+            mObjSala.setNombre_aula(intent.getStringExtra("nombreSala"));
+            mObjSala.setDia_clases(intent.getStringExtra("diaClases"));
+            mObjSala.setId_seccion(intent.getStringExtra("idSeccion"));
+            mObjSala.setJornada(intent.getStringExtra("jornada"));
+            mObjSala.setHora_inicio(intent.getStringExtra("horaInicio"));
+            mObjSala.setHora_termino(intent.getStringExtra("horaTermino"));
+            mObjSala.setNombre_asignatura(intent.getStringExtra("nombreAsig"));
+            mObjSala.setProfesor(intent.getStringExtra("profesor"));
 
 
-            ImageManager imageManager = new ImageManager(getApplicationContext());
+            ImageManager imageManager = new ImageManager();
             ImageView imageView = (ImageView) findViewById(R.id.imagenSala);
-            imageView.setImageBitmap(imageManager.sacarDeAndroid(objSala.getNombre_aula()));
+            imageView.setImageBitmap(imageManager.sacarDeAndroid(mObjSala.getNombre_aula()));
 
             imageView.setOnTouchListener(this);
         }catch (Exception e)
@@ -93,17 +66,19 @@ public class Imagen extends Activity implements View.OnTouchListener {
         }
 
             try {
-                fill0.setText(objSala.getNombre_aula());
-                fill1.setText(objSala.getNombre_asignatura());
-                fill2.setText(objSala.getId_seccion());
-                fill3.setText(objSala.getProfesor());
-                fill4.setText(objSala.getDia_clases());
-                fill5.setText(objSala.getJornada());
-                fill6.setText(objSala.getHora_inicio());
-                fill7.setText(objSala.getHora_termino());
+                fill0.setText(mObjSala.getNombre_aula());
+                fill1.setText(mObjSala.getNombre_asignatura());
+                fill2.setText(mObjSala.getId_seccion());
+                fill3.setText(mObjSala.getProfesor());
+                fill4.setText(mObjSala.getDia_clases());
+                fill5.setText(mObjSala.getJornada());
+                fill6.setText(mObjSala.getHora_inicio());
+                fill7.setText(mObjSala.getHora_termino());
             }catch (Exception e){
                 e.printStackTrace();
             }
+
+        //mProgressBar.setVisibility(View.INVISIBLE);
 
     }
 
@@ -115,7 +90,7 @@ public class Imagen extends Activity implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        String nombreSala = objSala.getNombre_aula().toLowerCase();
+        String nombreSala = mObjSala.getNombre_aula().toLowerCase();
         try{
 
             Intent intent = new Intent();

@@ -1,6 +1,5 @@
 package cl.duoc.descubretusede.utils;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
@@ -20,79 +19,56 @@ import java.net.URLConnection;
  * Created by kurt on 03-01-2015.
  */
 public class ImageManager {
-    private Context context;
 
-    public ImageManager(Context c) {
-        context = c;
+    public static final String mDirectorio = Environment.getExternalStorageDirectory().getPath() + "/duoc/";
+
+    public ImageManager() {
         creaDirectorio();
     }
 
+    public Bitmap sacarDeAndroid(String nombreSala){
+        nombreSala = nombreSala.toLowerCase();
+        Bitmap imagen = BitmapFactory.decodeFile(mDirectorio + nombreSala + ".jpg");
+        if(imagen ==null)
+        {
+            DownloadFromUrl(nombreSala);
+            imagen = sacarDeAndroid(nombreSala);
+            return imagen;
+        }
+        return imagen;
+    }
 
-
-    public void creaDirectorio(){
-        File directorioImagenes = new File("/sdcard/duoc/");
+    private void creaDirectorio(){
+        File directorioImagenes = new File(mDirectorio);
         if(!directorioImagenes.exists())
         {
             directorioImagenes.mkdirs();
         }
     }
 
-//todo: comprobar si el archivo existe y bajarlo si no
-    public Bitmap sacarDeAndroid(String nombreSala){
-      // Bitmap imagen = BitmapFactory.decodeFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + nombreSala + ".jpg");
-        nombreSala = nombreSala.toLowerCase();
-        Bitmap imagen = BitmapFactory.decodeFile("/sdcard/duoc/" + nombreSala + ".jpg");
-        if(imagen !=null)
-        {
-            return imagen;
-        }else{
-            DownloadFromUrl(nombreSala);
-          //  imagen = BitmapFactory.decodeFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + nombreSala + ".jpg");
-            imagen = BitmapFactory.decodeFile("/sdcard/duoc/" + nombreSala + ".jpg");
-            return imagen;
-        }
-    }
-
-    public void DownloadFromUrl(String nombreSala) {
+    private void DownloadFromUrl(String nombreSala) {
         try {
             nombreSala +=".jpg";
             nombreSala = nombreSala.toLowerCase();
             URL url = new URL("http://descubretusede.comunidadabierta.cl/imagenes/"+ nombreSala);
-                 //   File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                 //          + "/" + nombreSala);
 
-             File file = new File("/sdcard/duoc/" + nombreSala);
+            File file = new File(mDirectorio+ nombreSala);
             long startTime = System.currentTimeMillis();
-            Log.d("ImageManager", "download begining");
-            Log.d("ImageManager", "download url:" + url);
-            Log.d("ImageManager", "El Path"+file.getAbsolutePath());
-            Log.d("ImageManager", "downloaded file name:" + nombreSala);
-                        /* Open a connection to that URL. */
-            URLConnection ucon = url.openConnection();
 
-                        /*
-                         * Define InputStreams to read from the URLConnection.
-                         */
-            InputStream is = ucon.getInputStream();
-            BufferedInputStream bis = new BufferedInputStream(is);
-
-                        /*
-                         * Read bytes to the Buffer until there is nothing more to read(-1).
-                         */
-            ByteArrayBuffer baf = new ByteArrayBuffer(50);
-            int current = 0;
-            while ((current = bis.read()) != -1) {
-                baf.append((byte) current);
+            URLConnection urlConnection = url.openConnection();
+            InputStream inputStream = urlConnection.getInputStream();
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+            ByteArrayBuffer byteArrayBuffer = new ByteArrayBuffer(50);
+            int current;
+            while ((current = bufferedInputStream.read()) != -1) {
+                byteArrayBuffer.append((byte) current);
             }
-
-                        /* Convert the Bytes read to a String. */
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(baf.toByteArray());
-            fos.close();
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            fileOutputStream.write(byteArrayBuffer.toByteArray());
+            fileOutputStream.close();
             Log.d("ImageManager", "download ready in"
                     + ((System.currentTimeMillis() - startTime) / 1000)
                     + " sec");
-
         } catch (IOException e) {
             Log.d("ImageManager", "Error: " + e);
         }
