@@ -26,13 +26,13 @@ public class ImageManager {
         creaDirectorio();
     }
 
-    public Bitmap sacarDeAndroid(String nombreSala){
+    public Bitmap leerImagen(String nombreSala){
         nombreSala = nombreSala.toLowerCase();
         Bitmap imagen = BitmapFactory.decodeFile(mDirectorio + nombreSala + ".jpg");
         if(imagen ==null)
         {
             DownloadFromUrl(nombreSala);
-            imagen = sacarDeAndroid(nombreSala);
+            imagen = leerImagen(nombreSala);
             return imagen;
         }
         return imagen;

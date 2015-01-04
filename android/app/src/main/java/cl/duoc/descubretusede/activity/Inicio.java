@@ -24,7 +24,7 @@ public class Inicio extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 try{
-                Intent i = new Intent(getApplicationContext(),PruebaLista.class);
+                Intent i = new Intent(getApplicationContext(),Buscador.class);
                 startActivityForResult(i, 100);
                 }catch (Exception e){
                     e.printStackTrace();

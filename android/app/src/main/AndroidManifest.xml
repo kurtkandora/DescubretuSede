@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.PruebaLista" >
+        <activity android:name=".activity.Buscador" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -35,11 +35,11 @@
             android:name=".activity.Imagen"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_imagen"
-            android:parentActivityName=".activity.PruebaLista"
+            android:parentActivityName=".activity.Buscador"
             android:theme="@style/FullscreenTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="cl.duoc.descubretusede.activity.PruebaLista" />
+                android:value=".activity.Buscador" />
         </activity>
     </application>
 

@@ -30,7 +30,7 @@ import cl.duoc.descubretusede.utils.SalaUtil;
  * Created by Administrador on 11/11/2014.
  */
 
-public class PruebaLista extends ListActivity implements OnItemSelectedListener {
+public class Buscador extends ListActivity implements OnItemSelectedListener {
     //Lista y spinner de prueba
     List lista = new ArrayList();
     Spinner sp;

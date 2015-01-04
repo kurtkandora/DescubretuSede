@@ -57,7 +57,7 @@ public class Imagen extends Activity implements View.OnTouchListener {
 
             ImageManager imageManager = new ImageManager();
             ImageView imageView = (ImageView) findViewById(R.id.imagenSala);
-            imageView.setImageBitmap(imageManager.sacarDeAndroid(mObjSala.getNombre_aula()));
+            imageView.setImageBitmap(imageManager.leerImagen(mObjSala.getNombre_aula()));
 
             imageView.setOnTouchListener(this);
         }catch (Exception e)
