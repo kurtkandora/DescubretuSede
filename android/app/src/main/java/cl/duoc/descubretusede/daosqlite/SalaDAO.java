@@ -247,6 +247,14 @@ public class SalaDAO {
 
 
     public boolean insertSala (Sala sala){
+
+        ArrayList<Sala> salas = getSalaDocente(sala.getProfesor());
+
+        for (Sala objSala:salas) {
+            if(objSala.equals(sala)){
+                return true;
+            }
+        }
         try {
             sqLiteDatabase = dataHelper.getWritableDatabase();
             sqLiteDatabase.execSQL("insert into sala(ID_SECCION,JORNADA,PROFESOR,NOMBRE_ASIGNATURA," +

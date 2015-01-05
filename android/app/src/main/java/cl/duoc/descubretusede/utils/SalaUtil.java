@@ -105,8 +105,8 @@ public class SalaUtil {
 
         try{
             JSONObject json;
-            Sala objSala = new Sala();
             for (int i = 0; i <joba.length() ; i++) {
+                Sala objSala = new Sala();
                 json = (JSONObject)joba.get(i);
                 objSala.setNombre_aula(json.getString("nombre_aula"));
                 objSala.setNombre_asignatura(json.getString("nombre_asignatura"));

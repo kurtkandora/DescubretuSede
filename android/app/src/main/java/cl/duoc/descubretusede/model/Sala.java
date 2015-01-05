@@ -83,4 +83,31 @@ public class Sala {
     public void setProfesor(String profesor) {
         this.profesor = profesor;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Sala sala = (Sala) o;
+
+        if (dia_clases != null ? !dia_clases.equals(sala.dia_clases) : sala.dia_clases != null)
+            return false;
+        if (hora_inicio != null ? !hora_inicio.equals(sala.hora_inicio) : sala.hora_inicio != null)
+            return false;
+        if (hora_termino != null ? !hora_termino.equals(sala.hora_termino) : sala.hora_termino != null)
+            return false;
+        if (id_seccion != null ? !id_seccion.equals(sala.id_seccion) : sala.id_seccion != null)
+            return false;
+        if (jornada != null ? !jornada.equals(sala.jornada) : sala.jornada != null) return false;
+        if (nombre_asignatura != null ? !nombre_asignatura.equals(sala.nombre_asignatura) : sala.nombre_asignatura != null)
+            return false;
+        if (nombre_aula != null ? !nombre_aula.equals(sala.nombre_aula) : sala.nombre_aula != null)
+            return false;
+        if (profesor != null ? !profesor.equals(sala.profesor) : sala.profesor != null)
+            return false;
+
+        return true;
+    }
+
 }
