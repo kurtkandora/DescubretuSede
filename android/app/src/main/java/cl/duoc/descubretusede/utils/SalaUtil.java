@@ -58,6 +58,7 @@ public class SalaUtil {
                 case 2:
                     return salaDAOobj.getSalaSeccion(query);
                 case 3:
+                    ArrayList<Sala> salita = salaDAOobj.getSalaDocente(query);
                     return salaDAOobj.getSalaDocente(query);
                 case 4:
                     return salaDAOobj.getSalaAsignatura(query);

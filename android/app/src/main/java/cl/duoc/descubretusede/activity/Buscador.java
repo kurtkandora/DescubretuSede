@@ -91,8 +91,8 @@ public class Buscador extends ListActivity implements OnItemSelectedListener {
                 if (seleccionado <= 1) {
                     Toast.makeText(getApplicationContext(), "Debe seleccionar un tipo de busqueda", Toast.LENGTH_LONG).show();
                 } else {
-                    if (objSalaUtil.filtrarTipoBusqueda(query, seleccionado) != null) {
-                        mlistaSalas = objSalaUtil.filtrarTipoBusqueda(query, seleccionado);
+                    mlistaSalas = objSalaUtil.filtrarTipoBusqueda(query, seleccionado);
+                    if (mlistaSalas != null) {
                         ArrayList<String> elarray = retorna();
 
                         ArrayAdapter<String> salaAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, elarray);
