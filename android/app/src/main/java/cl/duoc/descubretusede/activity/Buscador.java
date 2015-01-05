@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -44,6 +45,10 @@ public class Buscador extends ListActivity implements OnItemSelectedListener {
         setContentView(R.layout.activity_busqueda);
         mProgressBar= (ProgressBar) findViewById(R.id.progressBar);
 
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
         //seteo de Spinner
         sp = (Spinner) findViewById(R.id.spinnerOpciones);
         lista.add("Tipo de Busqueda");
@@ -141,7 +146,6 @@ public class Buscador extends ListActivity implements OnItemSelectedListener {
                         mlistaSalas = objSalaUtil.filtrarTipoBusqueda(query, seleccionado);;
                         if (mlistaSalas != null) {
                             return retorna();
-                        } else {
                         }
                     }
                 }
