@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by kurt on 14-10-2014.
  */
 public class DataHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 20;
+    private static final int DATABASE_VERSION = 21;
     private static final String DATABASE_NAME = "DescubreTuSede";
 
     private static final String TABLA_SALA =
@@ -41,8 +41,8 @@ public class DataHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS "+ TABLA_SALA + ";");
-        db.execSQL("DROP TABLE IF EXISTS "+ TABLA_BUSQUEDA + ";");
+        db.execSQL("DROP TABLE IF EXISTS sala;");
+        db.execSQL("DROP TABLE IF EXISTS BUSQUEDA;");
         this.onCreate(db);
 
     }
