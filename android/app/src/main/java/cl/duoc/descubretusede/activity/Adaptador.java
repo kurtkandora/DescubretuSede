@@ -31,14 +31,14 @@ public class Adaptador extends BaseExpandableListAdapter {
     private void construyeChildList() {
         for (int i = 0; i <sabana.size() ; i++) {
             for (int j = 0; j <1 ; j++) {
-                childList[i][0]=sabana.get(i).getNombre_asignatura();
-                childList[i][1]=sabana.get(i).getNombre_aula();
-                childList[i][2]=sabana.get(i).getId_seccion();
-                childList[i][3]=sabana.get(i).getDia_clases();
-                childList[i][4]=sabana.get(i).getHora_inicio();
-                childList[i][5]=sabana.get(i).getHora_termino();
-                childList[i][6]=sabana.get(i).getProfesor();
-                childList[i][7]=sabana.get(i).getJornada();
+                childList[i][0]="Asignatura: "+sabana.get(i).getNombre_asignatura();
+                childList[i][1]="Nombre Sala: "+sabana.get(i).getNombre_aula();
+                childList[i][2]="Sección: "+sabana.get(i).getId_seccion();
+                childList[i][3]="Dia Clases: "+sabana.get(i).getDia_clases();
+                childList[i][4]="Profesor: "+sabana.get(i).getProfesor();
+                childList[i][5]="Jornada: "+sabana.get(i).getJornada();
+                childList[i][6]="Hora Inicio: "+sabana.get(i).getHora_inicio();
+                childList[i][7]="Hora Termino: "+sabana.get(i).getHora_termino();
 
             }
         }
@@ -98,12 +98,12 @@ public class Adaptador extends BaseExpandableListAdapter {
     public View getChildView(int i, int i2, boolean b, View view, ViewGroup viewGroup) {
         TextView tv = new TextView(context);
         tv.setText(childList[i][i2]);
-        tv.setPadding(30,0,0,0);
+        tv.setPadding(60,0,0,0);
         return tv;
     }
 
     @Override
     public boolean isChildSelectable(int i, int i2) {
-        return true;
+        return false;
     }
 }
