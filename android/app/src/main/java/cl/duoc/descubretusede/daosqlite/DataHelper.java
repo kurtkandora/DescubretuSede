@@ -26,7 +26,7 @@ public class DataHelper extends SQLiteOpenHelper {
     private static final String TABLA_BUSQUEDA =
             "CREATE TABLE BUSQUEDA ( " +
                     "_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                    "busqueda_realizada text not null " +
+                    "busqueda_realizada text not null," +
                     "tipo_de_busqueda INTEGER NOT NULL);";
 
     public DataHelper(Context context) {
@@ -41,7 +41,7 @@ public class DataHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS sala;");
+        db.execSQL("DROP TABLE IF EXISTS SALA;");
         db.execSQL("DROP TABLE IF EXISTS BUSQUEDA;");
         this.onCreate(db);
 
