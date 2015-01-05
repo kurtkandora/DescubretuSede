@@ -2,8 +2,8 @@
 -----------------------------------------------------------------------------------------------------------
 NOMBRE PACKAGE: cl.duoc.marketing.av.descubretusede.utils
 
-DESCRIPCION: Este PACKAGE contiene clases utilitarias como, conexiones de bases de datos,
- m�todos para consumo de servicio web, conversiones de datos, validaciones, entre otros.
+DESCRIPCIÓN: Este PACKAGE contiene clases utilitarias como, conexiones de bases de datos,
+ métodos para consumo de servicio web, conversiones de datos, validaciones, entre otros.
 
 VERSION or DATE: 04/10/2014
 
