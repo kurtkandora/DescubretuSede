@@ -60,7 +60,7 @@ public class SalaDAO {
         Sala sala= new Sala();
         sqLiteDatabase = dataHelper.getReadableDatabase();
         Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,JORNADA,NOMBRE_ASIGNATURA,NOMBRE_AULA,HORA_INICIO,HORA_TERMINO,DIA_CLASES from sala " +
-                "where PROFESOR = "+docente,null);
+                "where PROFESOR = "+"'"+docente+"'",null);
         if(salaCursor.moveToFirst()) {
             do {
                 sala.setProfesor(docente);
@@ -72,7 +72,7 @@ public class SalaDAO {
                 sala.setHora_termino(salaCursor.getString(5));
                 sala.setDia_clases(salaCursor.getString(6));
                 salas.add(sala);
-            }while(salaCursor.moveToFirst());
+            }while(salaCursor.moveToNext());
         }
         return salas;
 
@@ -84,7 +84,7 @@ public class SalaDAO {
         Sala sala= new Sala();
         sqLiteDatabase = dataHelper.getReadableDatabase();
         Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,PROFESOR,JORNADA,NOMBRE_AULA,HORA_INICIO,HORA_TERMINO,DIA_CLASES from sala " +
-                "where NOMBRE_ASIGNATURA = "+asignatura,null);
+                "where NOMBRE_ASIGNATURA = "+"'"+asignatura+"'",null);
         if(salaCursor.moveToFirst()) {
             do {
                 sala.setNombre_asignatura(asignatura);
@@ -96,7 +96,7 @@ public class SalaDAO {
                 sala.setHora_termino(salaCursor.getString(5));
                 sala.setDia_clases(salaCursor.getString(6));
                 salas.add(sala);
-            }while(salaCursor.moveToFirst());
+            }while(salaCursor.moveToNext());
         }
         return salas;
 
@@ -107,7 +107,7 @@ public class SalaDAO {
         Sala sala= new Sala();
         sqLiteDatabase = dataHelper.getReadableDatabase();
         Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,PROFESOR,JORNADA,NOMBRE_ASIGNATURA,HORA_INICIO,HORA_TERMINO,DIA_CLASES from sala " +
-                "where NOMBRE_AULA = "+aula,null);
+                "where NOMBRE_AULA = "+"'"+aula+"'",null);
         if(salaCursor.moveToFirst()) {
             do {
                 sala.setNombre_aula(aula);
@@ -119,7 +119,7 @@ public class SalaDAO {
                 sala.setHora_termino(salaCursor.getString(5));
                 sala.setDia_clases(salaCursor.getString(6));
                 salas.add(sala);
-            }while(salaCursor.moveToFirst());
+            }while(salaCursor.moveToNext());
         }
         return salas;
 
@@ -131,7 +131,7 @@ public class SalaDAO {
         Sala sala= new Sala();
         sqLiteDatabase = dataHelper.getReadableDatabase();
         Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,PROFESOR,NOMBRE_ASIGNATURA,NOMBRE_AULA,HORA_INICIO,HORA_TERMINO,DIA_CLASES from sala " +
-                "where JORNADA = "+jornada,null);
+                "where JORNADA = "+"'"+jornada+"'",null);
         if(salaCursor.moveToFirst()) {
             do {
                 sala.setJornada(jornada);
@@ -143,7 +143,7 @@ public class SalaDAO {
                 sala.setHora_termino(salaCursor.getString(5));
                 sala.setDia_clases(salaCursor.getString(6));
                 salas.add(sala);
-            }while(salaCursor.moveToFirst());
+            }while(salaCursor.moveToNext());
         }
         return salas;
 
@@ -155,7 +155,7 @@ public class SalaDAO {
         Sala sala= new Sala();
         sqLiteDatabase = dataHelper.getReadableDatabase();
         Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,JORNADA,PROFESOR,NOMBRE_ASIGNATURA,NOMBRE_AULA,HORA_INICIO,HORA_TERMINO from sala " +
-                "where DIA_CLASES= "+dia,null);
+                "where DIA_CLASES= "+"'"+dia+"'",null);
         if(salaCursor.moveToFirst()) {
             do {
                 sala.setDia_clases(dia);
@@ -167,7 +167,7 @@ public class SalaDAO {
                 sala.setHora_inicio(salaCursor.getString(5));
                 sala.setHora_termino(salaCursor.getString(6));
                 salas.add(sala);
-            }while(salaCursor.moveToFirst());
+            }while(salaCursor.moveToNext());
         }
         return salas;
 
@@ -179,7 +179,7 @@ public class SalaDAO {
         Sala sala= new Sala();
         sqLiteDatabase = dataHelper.getReadableDatabase();
         Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,JORNADA,PROFESOR,NOMBRE_ASIGNATURA,NOMBRE_AULA,HORA_TERMINO,DIA_CLASES from sala " +
-                "where HORA_INICIO= "+horai,null);
+                "where HORA_INICIO= "+"'"+horai+"'",null);
         if(salaCursor.moveToFirst()) {
             do {
                 sala.setHora_inicio(horai);
@@ -191,7 +191,7 @@ public class SalaDAO {
                 sala.setHora_termino(salaCursor.getString(5));
                 sala.setDia_clases(salaCursor.getString(6));
                 salas.add(sala);
-            }while(salaCursor.moveToFirst());
+            }while(salaCursor.moveToNext());
         }
         return salas;
 
@@ -202,7 +202,7 @@ public class SalaDAO {
         Sala sala= new Sala();
         sqLiteDatabase = dataHelper.getReadableDatabase();
         Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,JORNADA,PROFESOR,NOMBRE_ASIGNATURA,NOMBRE_AULA,HORA_INICIO,DIA_CLASES from sala " +
-                "where HORA_TERMINO= "+horat,null);
+                "where HORA_TERMINO= "+"'"+horat+"'",null);
         if(salaCursor.moveToFirst()) {
             do {
                 sala.setHora_termino(horat);
@@ -214,7 +214,32 @@ public class SalaDAO {
                 sala.setHora_inicio(salaCursor.getString(5));
                 sala.setDia_clases(salaCursor.getString(6));
                 salas.add(sala);
-            }while(salaCursor.moveToFirst());
+            }while(salaCursor.moveToNext());
+        }
+        return salas;
+
+    }
+
+
+
+    public ArrayList<Sala> getSabana(String dia,String nombreSala){
+        ArrayList<Sala>salas = new ArrayList<Sala>();
+        Sala sala= new Sala();
+        sqLiteDatabase = dataHelper.getReadableDatabase();
+        Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,JORNADA,PROFESOR,NOMBRE_ASIGNATURA,HORA_INICIO,HORA_TERMINO from sala " +
+                "where DIA_CLASES= "+"'"+dia+"'"+"AND NOMBRE_AULA="+"'"+nombreSala+"'",null);
+        if(salaCursor.moveToFirst()) {
+            do {
+                sala.setDia_clases(dia);
+                sala.setNombre_aula(nombreSala);
+                sala.setId_seccion(salaCursor.getString(0));
+                sala.setJornada(salaCursor.getString(1));
+                sala.setProfesor(salaCursor.getString(2));
+                sala.setNombre_asignatura(salaCursor.getString(3));
+                sala.setHora_inicio(salaCursor.getString(4));
+                sala.setHora_termino(salaCursor.getString(5));
+                salas.add(sala);
+            }while(salaCursor.moveToNext());
         }
         return salas;
 

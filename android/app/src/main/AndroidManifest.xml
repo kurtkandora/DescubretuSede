@@ -41,6 +41,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.Buscador" />
         </activity>
+        <activity
+            android:name=".activity.Sabana"
+            android:label="@string/title_activity_sabana"
+            android:theme="@style/FullscreenTheme" >
+
+        </activity>
+
+
     </application>
 
 </manifest>

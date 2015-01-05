@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -29,11 +30,14 @@ public class Imagen extends Activity implements View.OnTouchListener {
 
         mObjSala = new Sala();
 
+
         //todo: no se va a ver la barra de progreso si no es una tarea asincrona
         //mProgressBar= (ProgressBar) findViewById(R.id.progressBarImagen);
         //mProgressBar.setVisibility(View.VISIBLE);
 
         setContentView(R.layout.activity_imagen);
+        Button btnSabana = (Button) findViewById(R.id.botonSabana);
+
         TextView fill0 = (TextView)findViewById(R.id.fill0);
         TextView fill1 = (TextView)findViewById(R.id.fill1);
         TextView fill2 = (TextView)findViewById(R.id.fill2);
@@ -80,6 +84,19 @@ public class Imagen extends Activity implements View.OnTouchListener {
 
         //mProgressBar.setVisibility(View.INVISIBLE);
 
+        btnSabana.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    Intent i = new Intent(getApplicationContext(),Sabana.class);
+                    i.putExtra("diaClases",mObjSala.getDia_clases());
+                    i.putExtra("nombreSala",mObjSala.getNombre_aula());
+                    startActivity(i);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 
