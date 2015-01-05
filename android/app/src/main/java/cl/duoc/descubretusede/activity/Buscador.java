@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -28,7 +27,8 @@ import cl.duoc.descubretusede.utils.SalaUtil;
  */
 
 public class Buscador extends ListActivity implements OnItemSelectedListener {
-    //Lista y spinner de prueba
+
+
     List lista = new ArrayList();
     Spinner sp;
     Intent intent;
@@ -43,11 +43,6 @@ public class Buscador extends ListActivity implements OnItemSelectedListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_busqueda);
         mProgressBar= (ProgressBar) findViewById(R.id.progressBar);
-
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
 
         //seteo de Spinner
         sp = (Spinner) findViewById(R.id.spinnerOpciones);
@@ -82,10 +77,10 @@ public class Buscador extends ListActivity implements OnItemSelectedListener {
 
     }
 
-     public ArrayList<String> retorna(ArrayList<Sala> salas){
+     public ArrayList<String> retorna(){
          ArrayList<String> listaResultado= new ArrayList<String>();
-         for (int i = 0; i < salas.size(); i++) {
-             listaResultado.add(i,"Sala: "+salas.get(i).getNombre_aula());
+         for (int i = 0; i < mlistaSalas.size(); i++) {
+             listaResultado.add(i,"Sala: "+mlistaSalas.get(i).getNombre_aula());
          }
          return  listaResultado;
      }
@@ -134,7 +129,6 @@ public class Buscador extends ListActivity implements OnItemSelectedListener {
 
         @Override
         protected ArrayList<String> doInBackground(Object... params) {
-
             if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
                 if (seleccionado == 0)
                 {
@@ -144,9 +138,9 @@ public class Buscador extends ListActivity implements OnItemSelectedListener {
                     if (seleccionado <= 1) {
                     } else {
 
-                        ArrayList<Sala> salas = objSalaUtil.filtrarTipoBusqueda(query, seleccionado);;
-                        if (salas != null) {
-                            return retorna(salas);
+                        mlistaSalas = objSalaUtil.filtrarTipoBusqueda(query, seleccionado);;
+                        if (mlistaSalas != null) {
+                            return retorna();
                         } else {
                         }
                     }
