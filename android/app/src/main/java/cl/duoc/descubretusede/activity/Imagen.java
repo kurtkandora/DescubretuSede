@@ -31,7 +31,7 @@ public class Imagen extends Activity implements View.OnTouchListener {
         mObjSala = new Sala();
 
 
-        //todo: no se va a ver la barra de progreso si no es una tarea asincrona
+        //todo: descargar imagen en task asincrono
         //mProgressBar= (ProgressBar) findViewById(R.id.progressBarImagen);
         //mProgressBar.setVisibility(View.VISIBLE);
 

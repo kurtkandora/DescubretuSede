@@ -81,7 +81,7 @@ public class Buscador extends ListActivity implements OnItemSelectedListener {
         getSalasTask.execute();
 
     }
-
+//todo: el buscador que no sea relativo
      public ArrayList<String> retorna(){
          ArrayList<String> listaResultado= new ArrayList<String>();
          for (int i = 0; i < mlistaSalas.size(); i++) {
