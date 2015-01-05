@@ -54,6 +54,7 @@ public class SalaUtil {
                 case 1:
                     break;
                 case 2:
+                    //TODO: CAMBIAR POR NUEVO IF QUE HAGA UN CHECK DESDE OTRA TABLA
                     if(salaDAOobj.getSalaSeccion(query).size()==0)
                     {
                         if(busqueda(query,seleccionado))
