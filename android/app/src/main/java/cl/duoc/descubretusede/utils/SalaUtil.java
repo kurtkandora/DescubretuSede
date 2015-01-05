@@ -20,6 +20,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import cl.duoc.descubretusede.daosqlite.BusquedaDAO;
 import cl.duoc.descubretusede.daosqlite.SalaDAO;
 import cl.duoc.descubretusede.model.Sala;
 
@@ -30,7 +31,6 @@ public class SalaUtil {
     SalaDAO salaDAOobj;
     Context context;
     Map<Integer,String> map = new Hashtable<Integer, String>();
-    ArrayList<Sala> salas = new ArrayList<Sala>();
 
     public SalaUtil(Context context){
         this.context=context;
@@ -50,146 +50,37 @@ public class SalaUtil {
 
     public ArrayList<Sala> filtrarTipoBusqueda(String query,int seleccionado){
         salaDAOobj = new SalaDAO(context);
-        switch (seleccionado){
+        BusquedaDAO busquedaDAO = new BusquedaDAO(context);
+        if(busquedaDAO.existe(query,seleccionado)) {
+            switch (seleccionado) {
                 case 1:
                     break;
                 case 2:
-                    if(salaDAOobj.getSalaSeccion(query).size()==0)
-                    {
-                        if(busqueda(query,seleccionado))
-                        {
-                            salas = salaDAOobj.getSalaSeccion(query);
-                        }else
-                        {
-                            salas =null;
-                        }
-                    }else
-                    {
-                        salas = salaDAOobj.getSalaSeccion(query);
-
-                    }
-                    break;
+                    return salaDAOobj.getSalaSeccion(query);
                 case 3:
-                    if(salaDAOobj.getSalaDocente(query).size()==0)
-                    {
-                        if(busqueda(query,seleccionado))
-                        {
-                            salas = salaDAOobj.getSalaDocente(query);
-                        }else
-                        {
-                            salas =null;
-                        }
-                    }else
-                    {
-                        salas = salaDAOobj.getSalaDocente(query);
-
-                    }
-                    break;
+                    return salaDAOobj.getSalaDocente(query);
                 case 4:
-                    if(salaDAOobj.getSalaAsignatura(query).size()==0)
-                    {
-                        if(busqueda(query,seleccionado))
-                        {
-                            salas = salaDAOobj.getSalaAsignatura(query);
-                        }else
-                        {
-                            salas =null;
-                        }
-                    }else
-                    {
-                        salas = salaDAOobj.getSalaAsignatura(query);
-
-                    }
-                    break;
+                    return salaDAOobj.getSalaAsignatura(query);
                 case 5:
-                    if(salaDAOobj.getSalaAula(query).size()==0)
-                    {
-                        if(busqueda(query,seleccionado))
-                        {
-                            salas = salaDAOobj.getSalaAula(query);
-                        }else
-                        {
-                            salas =null;
-                        }
-                    }else
-                    {
-                        salas = salaDAOobj.getSalaAula(query);
-
-                    }
-                    break;
+                    return salaDAOobj.getSalaAula(query);
                 case 6:
-                    if(salaDAOobj.getSalaJornada(query).size()==0)
-                    {
-                        if(busqueda(query,seleccionado))
-                        {
-                            salas = salaDAOobj.getSalaJornada(query);
-                        }else
-                        {
-                            salas =null;
-                        }
-                    }else
-                    {
-                        salas = salaDAOobj.getSalaJornada(query);
-
-                    }
-                    break;
+                    return salaDAOobj.getSalaJornada(query);
                 case 7:
-                    if(salaDAOobj.getSalaDia(query).size()==0)
-                    {
-                        if(busqueda(query,seleccionado))
-                        {
-                            salas = salaDAOobj.getSalaDia(query);
-                        }else
-                        {
-                            salas =null;
-                        }
-                    }else
-                    {
-                        salas = salaDAOobj.getSalaDia(query);
-
-                    }
-                    break;
+                    return salaDAOobj.getSalaDia(query);
                 case 8:
-                    if(salaDAOobj.getSalaHoraI(query).size()==0)
-                    {
-                        if(busqueda(query,seleccionado))
-                        {
-                            salas = salaDAOobj.getSalaHoraI(query);
-                        }else
-                        {
-                            salas =null;
-                        }
-                    }else
-                    {
-                        salas = salaDAOobj.getSalaHoraI(query);
-
-                    }
-                    break;
+                    return salaDAOobj.getSalaHoraI(query);
                 case 9:
-                    if(salaDAOobj.getSalaHoraT(query).size()==0)
-                    {
-                        if(busqueda(query,seleccionado))
-                        {
-                            salas = salaDAOobj.getSalaHoraT(query);
-                        }else
-                        {
-                            salas =null;
-                        }
-                    }else
-                    {
-                        salas = salaDAOobj.getSalaHoraT(query);
-
-                    }
-                    break;
+                    return salaDAOobj.getSalaHoraT(query);
             }
-        return salas;
-
+            return null;
+        }
+        else{
+            return busquedaWeb(query,seleccionado);
+        }
     }
 
-    private boolean busqueda(String query, int seleccionado){
-        boolean estadoBusqueda=false;
-        InputStream is = null;
-        String encodeurl="";
+    private ArrayList<Sala> busquedaWeb(String query, int seleccionado){
+        ArrayList<Sala> salas = new ArrayList<Sala>();
         JSONObject object = new JSONObject();
         JSONArray joba = new JSONArray();
         try {
@@ -198,7 +89,7 @@ public class SalaUtil {
             HttpPost httpPost = new HttpPost ("http://www.descubretusede.comunidadabierta.cl/ws/ws-seccion.php");
             List<NameValuePair> nvp = new ArrayList<NameValuePair>(2);;
             object.accumulate("indice",seleccionado);
-            object.accumulate(map.get(seleccionado).toString(),query);
+            object.accumulate(map.get(seleccionado),query);
 
             nvp.add(new BasicNameValuePair("send", object.toString()));
             httpPost.setEntity(new UrlEncodedFormEntity(nvp));
@@ -212,10 +103,8 @@ public class SalaUtil {
             e.printStackTrace();
         }
 
-
         try{
-            String acuTest ="";
-            JSONObject json = new JSONObject();
+            JSONObject json;
             Sala objSala = new Sala();
             for (int i = 0; i <joba.length() ; i++) {
                 json = (JSONObject)joba.get(i);
@@ -228,16 +117,16 @@ public class SalaUtil {
                 objSala.setDia_clases(json.getString("dia_clases"));
                 objSala.setProfesor(json.getString("profesor"));
                 salaDAOobj.insertSala(objSala);
+                salas.add(objSala);
 
-                estadoBusqueda=true;
             }
-            //Toast.makeText(getApplicationContext(), acuTest, Toast.LENGTH_SHORT).show();
+            BusquedaDAO busquedaDAO= new BusquedaDAO();
+            busquedaDAO.insertarBusqueda(query,seleccionado);
         }catch(Exception e){
             e.printStackTrace();
-            //Toast.makeText(getApplicationContext(),"Fallo",Toast.LENGTH_SHORT).show();
         };
 
-        return estadoBusqueda;
+        return salas;
     }
 
 
@@ -245,7 +134,7 @@ public class SalaUtil {
         String result = "";
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            String line = "";
+            String line;
 
             while ((line = bufferedReader.readLine()) != null) {
                 result += line;
