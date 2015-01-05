@@ -4,6 +4,7 @@ import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
@@ -14,13 +15,11 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cl.duoc.descubretusede.R;
-import cl.duoc.descubretusede.daosqlite.DataHelper;
 import cl.duoc.descubretusede.model.Sala;
 import cl.duoc.descubretusede.utils.SalaUtil;
 
@@ -36,21 +35,19 @@ public class Buscador extends ListActivity implements OnItemSelectedListener {
     static int seleccionado=0;
     private ArrayList<Sala> mlistaSalas;
     protected ProgressBar mProgressBar;
+    private SalaUtil objSalaUtil;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_busqueda);
-        //para usar INTERNET en el mismo THREAD
         mProgressBar= (ProgressBar) findViewById(R.id.progressBar);
-        mProgressBar.setVisibility(View.INVISIBLE);
+
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-        //BD
-        DataHelper objDataHelpter = new DataHelper(this);
 
         //seteo de Spinner
         sp = (Spinner) findViewById(R.id.spinnerOpciones);
@@ -77,40 +74,18 @@ public class Buscador extends ListActivity implements OnItemSelectedListener {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false);
 
-        //objeto Util
-        SalaUtil objSalaUtil = new SalaUtil(this);
-        //Reconoce lo que se ha buscado la vez anterior
         intent = getIntent();
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            mProgressBar.setVisibility(View.VISIBLE);
-            if (seleccionado == 0)
-            {
-                finish();
-            }else {
-                String query = intent.getStringExtra(SearchManager.QUERY);
-                if (seleccionado <= 1) {
-                    Toast.makeText(getApplicationContext(), "Debe seleccionar un tipo de busqueda", Toast.LENGTH_LONG).show();
-                } else {
-                    mlistaSalas = objSalaUtil.filtrarTipoBusqueda(query, seleccionado);
-                    if (mlistaSalas != null) {
-                        ArrayList<String> elarray = retorna();
+        mProgressBar.setVisibility(View.VISIBLE);
+        objSalaUtil  = new SalaUtil(this);
+        GetSalasTask getSalasTask = new GetSalasTask();
+        getSalasTask.execute();
 
-                        ArrayAdapter<String> salaAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, elarray);
-                        setListAdapter(salaAdapter);
-                        seleccionado = 0;
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Sala no encontrada!", Toast.LENGTH_LONG).show();
-                    }
-                }
-            }
-            mProgressBar.setVisibility(View.INVISIBLE);
-        }
     }
 
-     public ArrayList<String> retorna(){
+     public ArrayList<String> retorna(ArrayList<Sala> salas){
          ArrayList<String> listaResultado= new ArrayList<String>();
-         for (int i = 0; i < mlistaSalas.size(); i++) {
-             listaResultado.add(i,"Sala: "+mlistaSalas.get(i).getNombre_aula());
+         for (int i = 0; i < salas.size(); i++) {
+             listaResultado.add(i,"Sala: "+salas.get(i).getNombre_aula());
          }
          return  listaResultado;
      }
@@ -124,17 +99,16 @@ public class Buscador extends ListActivity implements OnItemSelectedListener {
         seleccionado = i+1;
     }
 
-
     @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         Intent intent = new Intent(this, Imagen.class);
-        Sala objSala = mlistaSalas.get(position);
         intent.putExtra("nombreSala", mlistaSalas.get(position).getNombre_aula());
         intent.putExtra("diaClases", mlistaSalas.get(position).getDia_clases());
         intent.putExtra("horaInicio", mlistaSalas.get(position).getHora_inicio());
@@ -147,7 +121,44 @@ public class Buscador extends ListActivity implements OnItemSelectedListener {
         startActivity(intent);
 
     }
+    public void manejarResultado (ArrayList<String> resultado){
+        ArrayAdapter<String> salaAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, resultado);
+        setListAdapter(salaAdapter);
+        seleccionado = 0;
+
+        mProgressBar.setVisibility(View.INVISIBLE);
+    }
+
+    private class GetSalasTask extends AsyncTask<Object,Void,ArrayList<String>>{
 
 
+        @Override
+        protected ArrayList<String> doInBackground(Object... params) {
+
+            if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+                if (seleccionado == 0)
+                {
+                    finish();
+                }else {
+                    String query = intent.getStringExtra(SearchManager.QUERY);
+                    if (seleccionado <= 1) {
+                    } else {
+
+                        ArrayList<Sala> salas = objSalaUtil.filtrarTipoBusqueda(query, seleccionado);;
+                        if (salas != null) {
+                            return retorna(salas);
+                        } else {
+                        }
+                    }
+                }
+            }
+            return new ArrayList<String>();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String> resultado){
+            manejarResultado(resultado);
+        }
+    }
 
 }

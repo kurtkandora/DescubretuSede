@@ -51,33 +51,41 @@ public class SalaUtil {
     public ArrayList<Sala> filtrarTipoBusqueda(String query,int seleccionado){
         salaDAOobj = new SalaDAO(context);
         BusquedaDAO busquedaDAO = new BusquedaDAO(context);
+        ArrayList<Sala> salas = new ArrayList<Sala>();
         if(busquedaDAO.existe(query,seleccionado)) {
             switch (seleccionado) {
                 case 1:
                     break;
                 case 2:
-                    return salaDAOobj.getSalaSeccion(query);
+                    salas = salaDAOobj.getSalaSeccion(query);
+                    break;
                 case 3:
-                    ArrayList<Sala> salita = salaDAOobj.getSalaDocente(query);
-                    return salaDAOobj.getSalaDocente(query);
+                    salas = salaDAOobj.getSalaDocente(query);
+                    break;
                 case 4:
-                    return salaDAOobj.getSalaAsignatura(query);
+                    salas = salaDAOobj.getSalaAsignatura(query);
+                    break;
                 case 5:
-                    return salaDAOobj.getSalaAula(query);
+                    salas = salaDAOobj.getSalaAula(query);
+                    break;
                 case 6:
-                    return salaDAOobj.getSalaJornada(query);
+                    salas = salaDAOobj.getSalaJornada(query);
+                    break;
                 case 7:
-                    return salaDAOobj.getSalaDia(query);
+                    salas = salaDAOobj.getSalaDia(query);
+                    break;
                 case 8:
-                    return salaDAOobj.getSalaHoraI(query);
+                    salas = salaDAOobj.getSalaHoraI(query);
+                    break;
                 case 9:
-                    return salaDAOobj.getSalaHoraT(query);
+                    salas = salaDAOobj.getSalaHoraT(query);
+                    break;
             }
-            return null;
         }
         else{
-            return busquedaWeb(query,seleccionado);
+            salas = busquedaWeb(query,seleccionado);
         }
+        return salas;
     }
 
     private ArrayList<Sala> busquedaWeb(String query, int seleccionado){
@@ -126,7 +134,6 @@ public class SalaUtil {
         }catch(Exception e){
             e.printStackTrace();
         };
-
         return salas;
     }
 
