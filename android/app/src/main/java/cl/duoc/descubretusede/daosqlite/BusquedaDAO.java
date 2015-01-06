@@ -25,8 +25,9 @@ public class BusquedaDAO {
 
     public Boolean existe(String busquedaRealizada, int tipoDeBusqueda)
     {
+        busquedaRealizada = busquedaRealizada.toLowerCase();
         sqLiteDatabase = dataHelper.getReadableDatabase();
-        Cursor salaCursor = sqLiteDatabase.rawQuery("Select _ID from busqueda where busqueda_realizada = '" + busquedaRealizada +
+        Cursor salaCursor = sqLiteDatabase.rawQuery("Select _ID from busqueda where LOWER(busqueda_realizada) = '" + busquedaRealizada +
                 "' and tipo_de_busqueda = " + tipoDeBusqueda, null);
         return salaCursor.moveToFirst();
     }

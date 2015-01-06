@@ -31,8 +31,9 @@ public class SalaDAO {
     public ArrayList<Sala> getSalaSeccion(String idSeccion){
         ArrayList<Sala> salas = new ArrayList<Sala>();
         sqLiteDatabase = dataHelper.getReadableDatabase();
+        idSeccion = idSeccion.toLowerCase();
         Cursor salaCursor = sqLiteDatabase.rawQuery("Select JORNADA,PROFESOR,NOMBRE_ASIGNATURA,NOMBRE_AULA,HORA_INICIO,HORA_TERMINO,DIA_CLASES from sala " +
-                "where ID_SECCION = "+"'"+idSeccion+"'",null);
+                "where LOWER(ID_SECCION) = "+"'"+idSeccion+"'",null);
         ArrayList<Sala> listaSalas = new ArrayList<Sala>();
 
         if(salaCursor.moveToFirst()) {
@@ -58,8 +59,9 @@ public class SalaDAO {
 
         ArrayList<Sala> salas = new ArrayList<Sala>();
         sqLiteDatabase = dataHelper.getReadableDatabase();
+        docente = docente.toLowerCase();
         Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,JORNADA,NOMBRE_ASIGNATURA,NOMBRE_AULA,HORA_INICIO,HORA_TERMINO,DIA_CLASES from sala " +
-                "where PROFESOR = "+"'"+docente+"'",null);
+                "where LOWER(PROFESOR) = "+"'"+docente+"'",null);
         if(salaCursor.moveToFirst()) {
             do {
                 Sala sala= new Sala();
@@ -82,8 +84,9 @@ public class SalaDAO {
     public ArrayList<Sala> getSalaAsignatura(String asignatura){
         ArrayList<Sala> salas = new ArrayList<Sala>();
         sqLiteDatabase = dataHelper.getReadableDatabase();
+        asignatura = asignatura.toLowerCase();
         Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,PROFESOR,JORNADA,NOMBRE_AULA,HORA_INICIO,HORA_TERMINO,DIA_CLASES from sala " +
-                "where NOMBRE_ASIGNATURA = "+"'"+asignatura+"'",null);
+                "where LOWER(NOMBRE_ASIGNATURA) = "+"'"+asignatura+"'",null);
         if(salaCursor.moveToFirst()) {
             do {
                 Sala sala= new Sala();
@@ -105,8 +108,9 @@ public class SalaDAO {
     public ArrayList<Sala> getSalaAula(String aula){
         ArrayList<Sala> salas = new ArrayList<Sala>();
         sqLiteDatabase = dataHelper.getReadableDatabase();
+        aula = aula.toLowerCase();
         Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,PROFESOR,JORNADA,NOMBRE_ASIGNATURA,HORA_INICIO,HORA_TERMINO,DIA_CLASES from sala " +
-                "where NOMBRE_AULA = "+"'"+aula+"'",null);
+                "where LOWER(NOMBRE_AULA) = "+"'"+aula+"'",null);
         if(salaCursor.moveToFirst()) {
             do {
                 Sala sala= new Sala();
@@ -129,8 +133,9 @@ public class SalaDAO {
     public ArrayList<Sala> getSalaJornada(String jornada){
         ArrayList<Sala> salas = new ArrayList<Sala>();
         sqLiteDatabase = dataHelper.getReadableDatabase();
+        jornada = jornada.toLowerCase();
         Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,PROFESOR,NOMBRE_ASIGNATURA,NOMBRE_AULA,HORA_INICIO,HORA_TERMINO,DIA_CLASES from sala " +
-                "where JORNADA = "+"'"+jornada+"'",null);
+                "where LOWER(JORNADA) = "+"'"+jornada+"'",null);
         if(salaCursor.moveToFirst()) {
             do {
                 Sala sala= new Sala();
@@ -153,8 +158,9 @@ public class SalaDAO {
     public ArrayList<Sala> getSalaDia(String dia){
         ArrayList<Sala>salas = new ArrayList<Sala>();
         sqLiteDatabase = dataHelper.getReadableDatabase();
+        dia = dia.toLowerCase();
         Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,JORNADA,PROFESOR,NOMBRE_ASIGNATURA,NOMBRE_AULA,HORA_INICIO,HORA_TERMINO from sala " +
-                "where DIA_CLASES= "+"'"+dia+"'",null);
+                "where LOWER(DIA_CLASES)= "+"'"+dia+"'",null);
         if(salaCursor.moveToFirst()) {
             do {
                 Sala sala= new Sala();
@@ -225,8 +231,9 @@ public class SalaDAO {
     public ArrayList<Sala> getSabana(String dia,String nombreSala){
         ArrayList<Sala>salas = new ArrayList<Sala>();
         sqLiteDatabase = dataHelper.getReadableDatabase();
+        nombreSala = nombreSala.toLowerCase();
         Cursor salaCursor = sqLiteDatabase.rawQuery("Select ID_SECCION,JORNADA,PROFESOR,NOMBRE_ASIGNATURA,HORA_INICIO,HORA_TERMINO from sala " +
-                "where DIA_CLASES= "+"'"+dia+"'"+"AND NOMBRE_AULA="+"'"+nombreSala+"'",null);
+                "where DIA_CLASES= "+"'"+dia+"'"+"AND LOWER(NOMBRE_AULA)="+"'"+nombreSala+"'",null);
         if(salaCursor.moveToFirst()) {
             do {
                 Sala sala= new Sala();

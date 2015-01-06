@@ -82,7 +82,7 @@ public class Buscador extends ListActivity implements OnItemSelectedListener {
 
     }
 //todo: el buscador que no sea relativo
-     public ArrayList<String> retorna(){
+     private ArrayList<String> creaListaStringSalas(){
          ArrayList<String> listaResultado= new ArrayList<String>();
          for (int i = 0; i < mlistaSalas.size(); i++) {
              listaResultado.add(i,"Sala: "+mlistaSalas.get(i).getNombre_aula());
@@ -94,7 +94,6 @@ public class Buscador extends ListActivity implements OnItemSelectedListener {
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         //mostrando opciones seleccionadas (solo para ver si los datos son devueltos)
-        //intent.putExtra("tipoBusqueda","tipoBusqueda");
            //para que comienze desde Indice 2 (Busqueda por Seccion)
         seleccionado = i+1;
     }
@@ -121,7 +120,7 @@ public class Buscador extends ListActivity implements OnItemSelectedListener {
         startActivity(intent);
 
     }
-    public void manejarResultado (ArrayList<String> resultado){
+    private void manejarResultado (ArrayList<String> resultado){
         ArrayAdapter<String> salaAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, resultado);
         setListAdapter(salaAdapter);
         seleccionado = 0;
@@ -145,7 +144,7 @@ public class Buscador extends ListActivity implements OnItemSelectedListener {
 
                         mlistaSalas = objSalaUtil.filtrarTipoBusqueda(query, seleccionado);;
                         if (mlistaSalas != null) {
-                            return retorna();
+                            return creaListaStringSalas();
                         }
                     }
                 }
